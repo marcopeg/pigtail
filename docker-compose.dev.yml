@@ -1,0 +1,24 @@
+version: '2.1'
+services:
+    postgres:
+        image: timescale/timescaledb:1.2.0-pg11
+        ports:
+            - ${PG_PORT-5432}:5432
+        environment:
+            POSTGRES_USER: ${PG_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+            POSTGRES_DB: ${PG_DATABASE:-postgres}
+        volumes:
+            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+            - ${HUMBLE_BACKUP}:/backup
+        restart: always
+
+    grafana:
+        image: grafana/grafana
+        ports:
+            - ${GRAFANA_PORT-3000}:3000
+        environment:
+            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
+        volumes:
+            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
+
