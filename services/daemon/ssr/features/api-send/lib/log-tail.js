@@ -54,7 +54,8 @@ export class LogTail {
         try {
             this.tailFile()
         } catch (err) {
-            this.tailLogs()
+            console.log('CAN NOT TAIL FILE', err)
+            // this.tailLogs()
         }
     }
 
