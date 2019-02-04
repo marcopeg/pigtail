@@ -36,6 +36,7 @@ export const register = ({ registerAction }) => {
                     console.log(container.id, container.id === ccid)
                     new LogTail(container.id, log => {
                         console.log(`${container.name} - `, log)
+                        console.log(JSON.stringify(log))
                     })
                 })
 

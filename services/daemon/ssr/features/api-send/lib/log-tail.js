@@ -54,10 +54,7 @@ export class LogTail {
         try {
             this.tailFile()
         } catch (err) {
-            console.log('CAN NOT TAIL FILE', err)
-            console.log('----')
-            console.log(getLogFilePath(this.cid))
-            // this.tailLogs()
+            this.tailLogs()
         }
     }
 
