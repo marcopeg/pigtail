@@ -21,7 +21,7 @@ ARG REACT_APP_NAME
 # NPM Install for building
 WORKDIR /usr/src/app-build
 ADD package.json /usr/src/app-build/package.json
-RUN yarn install
+RUN yarn install --production=false
 
 # NPM Install for production
 WORKDIR /usr/src/app-run
@@ -39,6 +39,15 @@ ADD .eslintignore /usr/src/app-build/.eslintignore
 ADD webpack.config.extend.js /usr/src/app-build
 ADD webpackDevServer.config.extend.js /usr/src/app-build
 ADD react-intl-pack.js /usr/src/app-build
+
+# Fix weird stuff with dependencies, can't explain why this is needed now
+WORKDIR /usr/src/app-build
+RUN yarn add react-loadable
+
+# Fix a weird building problem related to CRA
+# https://github.com/facebook/create-react-app/issues/6336
+WORKDIR /usr/src/app-build
+RUN yarn add terser@3.14.1
 
 # Build backend
 WORKDIR /usr/src/app-build
@@ -75,5 +84,5 @@ ADD package.json /usr/src/app
 ADD index.js /usr/src/app
 
 # Default environment configuration:
-EXPOSE 8080
+# EXPOSE 8080
 CMD node index.js

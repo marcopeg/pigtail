@@ -13,6 +13,11 @@ services:
             - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
             - ${HUMBLE_BACKUP}:/backup
         restart: always
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
+            interval: 10s
+            timeout: 10s
+            retries: 10
 
     webapp:
         build:
@@ -36,7 +41,7 @@ services:
             PG_PASSWORD: ${PG_PASSWORD}
             PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
             PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
-            SERVER_PORT: ${SERVER_PORT}
+            SERVER_PORT: 8080
             GRAPHQL_MOUNT_POINT: ${GRAPHQL_MOUNT_POINT}
             REACT_SSR: ${REACT_SSR}
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED}
