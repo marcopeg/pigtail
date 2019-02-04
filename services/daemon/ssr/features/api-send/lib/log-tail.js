@@ -34,7 +34,11 @@ export class LogTail {
              logError('[log tail] tail error', err)
             this.restart()
         })
-        this.tail.on('line', line => this.handler(line.log))
+        this.tail.on('line', line => {
+            console.log(typeof line)
+            console.log(line.toString())
+            this.handler(line)
+        })
     }
 
     tailLogs () {
