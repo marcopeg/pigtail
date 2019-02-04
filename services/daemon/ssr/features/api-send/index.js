@@ -33,7 +33,6 @@ export const register = ({ registerAction }) => {
             containers
                 .filter(container => container.id !== ccid)
                 .map(container => {
-                    console.log(container.id, container.id === ccid)
                     new LogTail(container.id, log => {
                         console.log(`${container.name} - `, log)
                     })

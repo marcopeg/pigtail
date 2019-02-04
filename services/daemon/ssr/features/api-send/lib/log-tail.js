@@ -54,11 +54,11 @@ export class LogTail {
              logError('[log tail] child process exit', code)
             this.restart()
         })
-        this.child.stdout.on('data', data => this.handler(this.handler({
+        this.child.stdout.on('data', data => this.handler({
             log: data.toString(),
             stream: 'docker',
             time: (new Date()).toISOString()
-        })))
+        }))
     }
 
     restart () {
