@@ -38,7 +38,7 @@ export class LogTail {
     }
 
     tailLogs () {
-        this.child = spawn('docker', [ 'logs', '-f', this.cid ]);
+        this.child = spawn('docker', [ 'logs', '--tail=0', '-f', this.cid ]);
         this.child.on('exit', (code) => {
              logError('[log tail] child process exit', code)
             this.restart()
