@@ -37,9 +37,11 @@ export class LogTail {
         this.tail.on('line', line => {
             try {
                 const log = JSON.parse(line)
-                this.handler(log.log)
+                this.handler(log)
             } catch (err) {
-                this.handler(line)
+                this.handler({
+                    log: line,
+                })
             }
         })
     }
