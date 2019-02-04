@@ -35,9 +35,12 @@ export class LogTail {
             this.restart()
         })
         this.tail.on('line', line => {
-            console.log(typeof line)
-            console.log(line.toString())
-            this.handler(line)
+            try {
+                const log = JSON.parse(line)
+                this.handler(log.log)
+            } catch (err) {
+                this.handler(line)
+            }
         })
     }
 
