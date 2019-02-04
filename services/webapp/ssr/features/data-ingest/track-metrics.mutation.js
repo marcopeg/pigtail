@@ -8,6 +8,7 @@ import {
 } from 'graphql'
 
 import { GraphQLDateTime } from 'graphql-iso-date'
+import GraphQLJSON from 'graphql-type-json'
 
 import { getModel } from 'ssr/services/postgres'
 import { name as Metric } from './metric.model'
@@ -23,7 +24,7 @@ export const trackMetrics = () => ({
                         type: new GraphQLNonNull(GraphQLString),
                     },
                     value: {
-                        type: new GraphQLNonNull(GraphQLFloat),
+                        type: new GraphQLNonNull(GraphQLJSON),
                     },
                     ctime: {
                         type: GraphQLDateTime,

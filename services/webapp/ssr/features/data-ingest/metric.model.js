@@ -12,7 +12,7 @@ const fields = {
         primaryKey: true,
     },
     value: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.JSONB,
         allowNull: false,
     },
 }
