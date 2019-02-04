@@ -41,6 +41,8 @@ export class LogTail {
             } catch (err) {
                 this.handler({
                     log: line,
+                    stream: 'string',
+                    time: (new Date()).toISOString()
                 })
             }
         })
@@ -52,7 +54,11 @@ export class LogTail {
              logError('[log tail] child process exit', code)
             this.restart()
         })
-        this.child.stdout.on('data', data => this.handler(data.toString()))
+        this.child.stdout.on('data', data => this.handler(this.handler({
+            log: data.toString(),
+            stream: 'docker',
+            time: (new Date()).toISOString()
+        })))
     }
 
     restart () {
