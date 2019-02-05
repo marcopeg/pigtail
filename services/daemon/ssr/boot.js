@@ -39,6 +39,8 @@ registerAction({
         }
 
         settings.flusher = {
+            hostName: config.get('HOST_NAME'),
+
             // batch amount of data that get flushed
             maxMetricsBatch: config.get('FLUSHER_MAX_METRICS_BATCH', 100),
             maxLogsBatch: config.get('FLUSHER_MAX_LOGS_BATCH', 100),

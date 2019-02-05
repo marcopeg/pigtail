@@ -37,12 +37,6 @@ export const getLoggableContainerIds = () =>
         .filter(container => !container.isDaemon)
         .map(container => container.cid)
 
-// export const getContainersIdMap = () =>
-//     getContainers().reduce((acc, curr) => ({
-//         ...acc,
-//         [curr.id]: curr,
-//     }), {})
-
 const fetchStats = async () =>
     (await si.dockerAll())
         .map(container => {

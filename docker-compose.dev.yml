@@ -102,8 +102,9 @@ services:
             NODE_ENV: ${NODE_ENV:-development}
             BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-verbose}
-            API_ENDPOINT: http://api:8080/api
-            API_TOKEN: xxx
+            API_ENDPOINT: ${API_ENDPOINT:-http://api:8080/api}
+            API_TOKEN: ${API_TOKEN:-xxx}
+            HOST_NAME: ${HOST_NAME:-localhost}
         volumes:
             - ./services/daemon/ssr:/usr/src/app/ssr
             - /var/lib/docker/containers:/var/lib/docker/containers:ro

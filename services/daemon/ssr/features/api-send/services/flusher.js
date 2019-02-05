@@ -14,7 +14,7 @@ const getLogsRecords = async (limit) => {
     const logs = flushContainersLogs(limit)
     const records = logs.records
         .map(record => ({
-            host: 'xxx',
+            host: ctx.settings.hostName,
             container: record.container.name,
             message: record.log.log,
             meta: {
@@ -34,7 +34,7 @@ const getMetricRecords = async (limit) => {
     const records = stats.records
         .map(record => ({
             ...record,
-            host: 'xxx',
+            host: ctx.settings.hostName,
         }))
     
     return {

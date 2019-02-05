@@ -21,6 +21,7 @@ const services = [
 ]
 
 const features = [
+    require('./features/containers'),
     require('./features/data-ingest'),
     require('./features/api-token'),
 ]

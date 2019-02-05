@@ -8,9 +8,11 @@ import {
 
 import { GraphQLDateTime } from 'graphql-iso-date'
 import GraphQLJSON from 'graphql-type-json'
+import { createHook } from '@marcopeg/hooks'
 
 import { getModel } from 'ssr/services/postgres'
 import { name as Metric } from './metric.model'
+import { TRACK_METRICS_RECORDS, TRACK_METRICS_AFTER_CREATE } from './hooks'
 
 export const trackMetrics = () => ({
     description: 'TrackMetricsMutation',
@@ -40,11 +42,17 @@ export const trackMetrics = () => ({
     },
     type: GraphQLBoolean,
     resolve: async (params, args) => {
-        await getModel(Metric).bulkCreate(args.data.map(record => ({
+        const records = args.data.map(record => ({
             ...record,
             ctime: record.ctime || new Date(),
             meta: record.meta || {},
-        })))
+        }))
+
+        createHook(TRACK_METRICS_RECORDS, { args: { records } })
+
+        await getModel(Metric).bulkCreate(records)
+
+        createHook(TRACK_METRICS_AFTER_CREATE, { args: { records } })
         return true
     },
 })
