@@ -36,6 +36,13 @@ registerAction({
     handler: () => logBoot(),
 })
 
+// registerAction({
+//     hook: require('./features/api-send/hooks').CONTAINER_RECORD_METRICS,
+//     handler: (args) => {
+//         args.record.foo = 123
+//     }
+// })
+
 export default createHookApp({
     settings: { cwd: process.cwd() },
     services,

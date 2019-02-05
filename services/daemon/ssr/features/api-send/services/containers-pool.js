@@ -47,7 +47,11 @@ export const getContainersIdMap = () =>
         [curr.id]: curr,
     }), {})
 
-export const getRunningContainerIds = () =>
+export const getRunningContainers = () =>
     ctx.data
         .filter(container => container.state === 'running')
+
+export const getRunningContainerIds = () =>
+    getRunningContainers()
         .map(container => container.id)
+

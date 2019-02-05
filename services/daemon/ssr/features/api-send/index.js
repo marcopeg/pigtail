@@ -6,11 +6,12 @@ import { FEATURE_NAME } from './hooks'
 import { runQuery } from './lib/graphql'
 import { sendMetrics } from './lib/send-metrics'
 import * as runner from './runner'
-import * as metrics from './metrics'
+// import * as metrics from './metrics'
 import { LogTail } from './lib/log-tail'
 
 import * as containersPool from './services/containers-pool'
 import * as logsPool from './services/logs-pool'
+import * as metricsPool from './services/metrics-pool'
 import * as flusher from './services/flusher'
 
 export const register = ({ registerAction }) => {
@@ -45,6 +46,7 @@ export const register = ({ registerAction }) => {
             // @TODO: pass "refreshInterval" from env setting
             containersPool.start()
             logsPool.start()
+            metricsPool.start()
             flusher.start()
 
             // const data = await metrics.snap()
