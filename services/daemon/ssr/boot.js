@@ -31,26 +31,26 @@ registerAction({
         }
 
         settings.containersPool = {
-            timeout: 1000,
+            timeout: config.get('CONTAINERS_POOL_TIMEOUT', 1000),
         }
 
         settings.logsPool = {
-            timeout: 1000,
+            timeout: config.get('LOGS_POOL_TIMEOUT', 1000),
         }
         
         settings.metricsPool = {
-            timeout: 1000,
+            timeout: config.get('METRICS_POOL_TIMEOUT', 1000),
         }
 
         settings.flusher = {
             // batch amount of data that get flushed
-            metricsLimit: 10,
-            logsLimit: 10,
+            metricsLimit: config.get('FLUSHER_METRICS_LIMIT', 100),
+            logsLimit: config.get('FLUSHER_LOGD_SIMIT', 100),
 
             // timeouts
-            emptyTimeout: 2000,
-            errorTimeout: 5000,
-            timeout: 10,
+            emptyTimeout: config.get('FLUSHER_EMPTY_TIMEOUT', 2500),
+            errorTimeout: config.get('FLUSHER_ERROR_TIMEOUT', 5000),
+            timeout: config.get('FLUSHER_TIMEOUT', 1),
         }
     },
 })
