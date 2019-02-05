@@ -2,17 +2,20 @@ import { runQuery } from './graphql'
 
 const query = `mutation trackMetrics (
     $token: String!
-    $data: [MetricRecord]!  
+    $metrics: [MetricRecord]!  
+    $logs: [LogRecord]!  
 ) {
     api (token:$token) {
-        trackMetrics (data: $data)
+        trackMetrics (data: $metrics)
+        trackLogs (data: $logs)
     }
 }`
 
-export const sendMetrics = async (data) => {
+export const sendMetrics = async (metrics, logs) => {
     const res = await runQuery(query, {
         token: sendMetrics.token,
-        data,
+        metrics,
+        logs,
     })
 
     return res.data.api.trackMetrics

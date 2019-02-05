@@ -9,6 +9,10 @@ import * as runner from './runner'
 import * as metrics from './metrics'
 import { LogTail } from './lib/log-tail'
 
+import * as containersPool from './services/containers-pool'
+import * as logsPool from './services/logs-pool'
+import * as flusher from './services/flusher'
+
 export const register = ({ registerAction }) => {
     registerAction({
         hook: INIT_SERVICE,
@@ -27,16 +31,21 @@ export const register = ({ registerAction }) => {
             // runner.start()
             // metrics.snap().then(data => console.log(data))
 
-            const ccid = await getContainerId()
+            // const ccid = await getContainerId()
 
-            const containers = await si.dockerContainers()
-            containers
-                .filter(container => container.id !== ccid)
-                .map(container => {
-                    new LogTail(container.id, log => {
-                        console.log(`${container.name} - `, log)
-                    })
-                })
+            // const containers = await si.dockerContainers()
+            // containers
+            //     .filter(container => container.id !== ccid)
+            //     .map(container => {
+            //         new LogTail(container.id, log => {
+            //             console.log(`${container.name} - `, log)
+            //         })
+            //     })
+
+            // @TODO: pass "refreshInterval" from env setting
+            containersPool.start()
+            logsPool.start()
+            flusher.start()
 
             // const data = await metrics.snap()
             // data.map(container => {
