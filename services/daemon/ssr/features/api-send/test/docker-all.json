@@ -1,0 +1,1972 @@
+[
+    {
+        "id": "32ada2bfd1fcec645d9c87d13afaaf1f63e6672421150db93e26752f25765786",
+        "name": "rapha_daemon_1",
+        "image": "rapha_daemon",
+        "imageID": "sha256:472819a70e35fe469568b8a7566196757f399d549edec8a9ecc4f12e5df9d535",
+        "command": "yarn start:dev",
+        "created": 1549371934,
+        "state": "running",
+        "ports": [],
+        "mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/daemon/ssr",
+                "Destination": "/usr/src/app/ssr",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/var/lib/docker/containers",
+                "Destination": "/var/lib/docker/containers",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rslave"
+            },
+            {
+                "Type": "bind",
+                "Source": "/var/run/docker.sock",
+                "Destination": "/var/run/docker.sock",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "mem_usage": 144818176,
+        "mem_limit": 5189931008,
+        "mem_percent": 2.790368037200698,
+        "cpu_percent": 0.7064945454545455,
+        "pids": 34,
+        "netIO": {
+            "rx": 788,
+            "tx": 0
+        },
+        "blockIO": {
+            "r": 5054464,
+            "w": 1888256
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 4858099664,
+                "percpu_usage": [
+                    714806320,
+                    2058784411,
+                    2084508933
+                ],
+                "usage_in_kernelmode": 1310000000,
+                "usage_in_usermode": 3280000000
+            },
+            "system_cpu_usage": 134101400000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 4850846320,
+                "percpu_usage": [
+                    714806320,
+                    2051865538,
+                    2084174462
+                ],
+                "usage_in_kernelmode": 1310000000,
+                "usage_in_usermode": 3270000000
+            },
+            "system_cpu_usage": 134098320000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 144818176,
+            "max_usage": 167972864,
+            "stats": {
+                "active_anon": 131416064,
+                "active_file": 3862528,
+                "cache": 5632000,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 1769472,
+                "mapped_file": 0,
+                "pgfault": 108138,
+                "pgmajfault": 0,
+                "pgpgin": 98399,
+                "pgpgout": 64940,
+                "rss": 131416064,
+                "rss_huge": 0,
+                "total_active_anon": 131416064,
+                "total_active_file": 3862528,
+                "total_cache": 5632000,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 1769472,
+                "total_mapped_file": 0,
+                "total_pgfault": 108138,
+                "total_pgmajfault": 0,
+                "total_pgpgin": 98399,
+                "total_pgpgout": 64940,
+                "total_rss": 131416064,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 788,
+                "rx_packets": 10,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 0,
+                "tx_packets": 0,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "68185",
+                "ppid": "68160",
+                "pgid": "68185",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "1:47",
+                "nice": "0",
+                "rss": "78m",
+                "vsz": "332m",
+                "command": "node /opt/yarn-v1.12.3/bin/yarn.js start:dev"
+            },
+            {
+                "pid_host": "68378",
+                "ppid": "68185",
+                "pgid": "68185",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "1:46",
+                "nice": "0",
+                "rss": "4",
+                "vsz": "1580",
+                "command": "{node} /bin/sh /tmp/yarn--1549371936607-0.3400093055587434/node ./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js"
+            },
+            {
+                "pid_host": "68379",
+                "ppid": "68378",
+                "pgid": "68185",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "1:46",
+                "nice": "0",
+                "rss": "47m",
+                "vsz": "292m",
+                "command": "/usr/local/bin/node ./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js"
+            },
+            {
+                "pid_host": "71344",
+                "ppid": "68379",
+                "pgid": "68185",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "0:04",
+                "nice": "0",
+                "rss": "87m",
+                "vsz": "334m",
+                "command": "/usr/local/bin/node index.dev.js"
+            }
+        ],
+        "isDaemon": true
+    },
+    {
+        "id": "06b730a51c25ed6338779a4b871bd94882f633d2e0a40c63a0c9b62bc67da694",
+        "name": "creators_proxy_1",
+        "image": "creators_proxy",
+        "imageID": "sha256:aa0c9d648db35a4b4effc399c3dae2d1b53dc079dfc5a658d4e652a83ba02dc3",
+        "command": "/usr/bin/dockerize -template /app/nginx.conf.tmpl:/etc/nginx/nginx.conf nginx",
+        "created": 1549371217,
+        "state": "running",
+        "ports": [
+            {
+                "IP": "0.0.0.0",
+                "PrivatePort": 80,
+                "PublicPort": 8080,
+                "Type": "tcp"
+            }
+        ],
+        "mounts": [
+            {
+                "Type": "volume",
+                "Name": "91dd719331d048f4123e4587b8d4ab6dc7f9bc15dac0a7428e0b8b868bb9c49c",
+                "Source": "",
+                "Destination": "/usr/src/app/build",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "mem_usage": 4280320,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.08247354335543414,
+        "cpu_percent": 0,
+        "pids": 12,
+        "netIO": {
+            "rx": 1782,
+            "tx": 0
+        },
+        "blockIO": {
+            "r": 262144,
+            "w": 4096
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 79193636,
+                "percpu_usage": [
+                    21957691,
+                    30454386,
+                    26781559
+                ],
+                "usage_in_kernelmode": 40000000,
+                "usage_in_usermode": 20000000
+            },
+            "system_cpu_usage": 134101430000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 79193636,
+                "percpu_usage": [
+                    21957691,
+                    30454386,
+                    26781559
+                ],
+                "usage_in_kernelmode": 40000000,
+                "usage_in_usermode": 20000000
+            },
+            "system_cpu_usage": 134098330000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 4280320,
+            "max_usage": 4464640,
+            "stats": {
+                "active_anon": 3260416,
+                "active_file": 0,
+                "cache": 282624,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 4096,
+                "inactive_file": 278528,
+                "mapped_file": 131072,
+                "pgfault": 1754,
+                "pgmajfault": 2,
+                "pgpgin": 1386,
+                "pgpgout": 521,
+                "rss": 3260416,
+                "rss_huge": 0,
+                "total_active_anon": 3260416,
+                "total_active_file": 0,
+                "total_cache": 282624,
+                "total_dirty": 0,
+                "total_inactive_anon": 4096,
+                "total_inactive_file": 278528,
+                "total_mapped_file": 131072,
+                "total_pgfault": 1754,
+                "total_pgmajfault": 2,
+                "total_pgpgin": 1386,
+                "total_pgpgout": 521,
+                "total_rss": 3260416,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 1782,
+                "rx_packets": 27,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 0,
+                "tx_packets": 0,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "60334",
+                "ppid": "60310",
+                "pgid": "60334",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:45",
+                "nice": "0",
+                "rss": "5120",
+                "vsz": "9796",
+                "command": "/usr/bin/dockerize -template /app/nginx.conf.tmpl:/etc/nginx/nginx.conf nginx"
+            },
+            {
+                "pid_host": "60569",
+                "ppid": "60334",
+                "pgid": "60334",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:44",
+                "nice": "0",
+                "rss": "4596",
+                "vsz": "6260",
+                "command": "nginx: master process nginx"
+            },
+            {
+                "pid_host": "60574",
+                "ppid": "60569",
+                "pgid": "60334",
+                "user": "rpc",
+                "ruser": "rpc",
+                "group": "rpc",
+                "rgroup": "rpc",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:44",
+                "nice": "0",
+                "rss": "2012",
+                "vsz": "6716",
+                "command": "nginx: worker process"
+            },
+            {
+                "pid_host": "60575",
+                "ppid": "60569",
+                "pgid": "60334",
+                "user": "rpc",
+                "ruser": "rpc",
+                "group": "rpc",
+                "rgroup": "rpc",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:44",
+                "nice": "0",
+                "rss": "2012",
+                "vsz": "6716",
+                "command": "nginx: worker process"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "aec1e7c9d20df34f7e066c940920827f2dbfd476fbcc366b1c5dc7e64a0df19a",
+        "name": "creators_backup1_1",
+        "image": "schickling/postgres-backup-s3",
+        "imageID": "sha256:e8e41fa54edbb0e98f4ef20edfdca3f83732b084d4a7524ea87544ff030b4605",
+        "command": "sh run.sh",
+        "created": 1549371216,
+        "state": "running",
+        "ports": [],
+        "mounts": [],
+        "mem_usage": 26193920,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.5047065165148338,
+        "cpu_percent": 0,
+        "pids": 9,
+        "netIO": {
+            "rx": 2500389,
+            "tx": 96519
+        },
+        "blockIO": {
+            "r": 18583552,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 731804480,
+                "percpu_usage": [
+                    29168761,
+                    81308946,
+                    621326773
+                ],
+                "usage_in_kernelmode": 200000000,
+                "usage_in_usermode": 400000000
+            },
+            "system_cpu_usage": 134101350000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 731804480,
+                "percpu_usage": [
+                    29168761,
+                    81308946,
+                    621326773
+                ],
+                "usage_in_kernelmode": 200000000,
+                "usage_in_usermode": 400000000
+            },
+            "system_cpu_usage": 134098290000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 26193920,
+            "max_usage": 63627264,
+            "stats": {
+                "active_anon": 761856,
+                "active_file": 4960256,
+                "cache": 18739200,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 13778944,
+                "mapped_file": 0,
+                "pgfault": 14541,
+                "pgmajfault": 71,
+                "pgpgin": 18237,
+                "pgpgout": 13476,
+                "rss": 761856,
+                "rss_huge": 0,
+                "total_active_anon": 761856,
+                "total_active_file": 4960256,
+                "total_cache": 18739200,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 13778944,
+                "total_mapped_file": 0,
+                "total_pgfault": 14541,
+                "total_pgmajfault": 71,
+                "total_pgpgin": 18237,
+                "total_pgpgout": 13476,
+                "total_rss": 761856,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 2500389,
+                "rx_packets": 527,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 96519,
+                "tx_packets": 492,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "59840",
+                "ppid": "59779",
+                "pgid": "59840",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:47",
+                "nice": "0",
+                "rss": "3876",
+                "vsz": "8960",
+                "command": "go-cron @every 10m /bin/sh backup.sh"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "55f9ecb888dbf944ebc8e0fa70fb650aa4cebe19cd22c5e3112aa27c599ec18e",
+        "name": "creators_backup_1",
+        "image": "schickling/postgres-backup-s3",
+        "imageID": "sha256:e8e41fa54edbb0e98f4ef20edfdca3f83732b084d4a7524ea87544ff030b4605",
+        "command": "sh run.sh",
+        "created": 1549371216,
+        "state": "running",
+        "ports": [],
+        "mounts": [],
+        "mem_usage": 1114112,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.021466797887730225,
+        "cpu_percent": 0,
+        "pids": 6,
+        "netIO": {
+            "rx": 1824,
+            "tx": 0
+        },
+        "blockIO": {
+            "r": 114688,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 60113524,
+                "percpu_usage": [
+                    23568485,
+                    21071596,
+                    15473443
+                ],
+                "usage_in_kernelmode": 40000000,
+                "usage_in_usermode": 30000000
+            },
+            "system_cpu_usage": 134101400000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 60113524,
+                "percpu_usage": [
+                    23568485,
+                    21071596,
+                    15473443
+                ],
+                "usage_in_kernelmode": 40000000,
+                "usage_in_usermode": 30000000
+            },
+            "system_cpu_usage": 134098320000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 1114112,
+            "max_usage": 2674688,
+            "stats": {
+                "active_anon": 659456,
+                "active_file": 0,
+                "cache": 114688,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 114688,
+                "mapped_file": 61440,
+                "pgfault": 937,
+                "pgmajfault": 1,
+                "pgpgin": 729,
+                "pgpgout": 540,
+                "rss": 659456,
+                "rss_huge": 0,
+                "total_active_anon": 659456,
+                "total_active_file": 0,
+                "total_cache": 114688,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 114688,
+                "total_mapped_file": 61440,
+                "total_pgfault": 937,
+                "total_pgmajfault": 1,
+                "total_pgpgin": 729,
+                "total_pgpgout": 540,
+                "total_rss": 659456,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 1824,
+                "rx_packets": 28,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 0,
+                "tx_packets": 0,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "59824",
+                "ppid": "59784",
+                "pgid": "59824",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:47",
+                "nice": "0",
+                "rss": "3916",
+                "vsz": "8832",
+                "command": "go-cron @every 1h /bin/sh backup.sh"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "e3650af6559fdab168111746be0331b7e95a13cf0f2ce32f216b9d812ddc51cd",
+        "name": "creators_workers_1",
+        "image": "creators_workers",
+        "imageID": "sha256:be9f5594a44cc118c6e2d2d918dd7922ba5a75fd2c26be54cbfc7a0bcf7d8323",
+        "command": "/nodejs/bin/node index.js",
+        "created": 1549371216,
+        "state": "running",
+        "ports": [],
+        "mounts": [],
+        "mem_usage": 15417344,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.29706260018167857,
+        "cpu_percent": 0,
+        "pids": 10,
+        "netIO": {
+            "rx": 207886,
+            "tx": 239407
+        },
+        "blockIO": {
+            "r": 0,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 1391337622,
+                "percpu_usage": [
+                    799782455,
+                    188302991,
+                    403252176
+                ],
+                "usage_in_kernelmode": 320000000,
+                "usage_in_usermode": 860000000
+            },
+            "system_cpu_usage": 134101380000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 1391337622,
+                "percpu_usage": [
+                    799782455,
+                    188302991,
+                    403252176
+                ],
+                "usage_in_kernelmode": 320000000,
+                "usage_in_usermode": 860000000
+            },
+            "system_cpu_usage": 134098330000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 15417344,
+            "max_usage": 20152320,
+            "stats": {
+                "active_anon": 14233600,
+                "active_file": 0,
+                "cache": 0,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 0,
+                "mapped_file": 0,
+                "pgfault": 8903,
+                "pgmajfault": 0,
+                "pgpgin": 8348,
+                "pgpgout": 4873,
+                "rss": 14233600,
+                "rss_huge": 0,
+                "total_active_anon": 14233600,
+                "total_active_file": 0,
+                "total_cache": 0,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 0,
+                "total_mapped_file": 0,
+                "total_pgfault": 8903,
+                "total_pgmajfault": 0,
+                "total_pgpgin": 8348,
+                "total_pgpgout": 4873,
+                "total_rss": 14233600,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 207886,
+                "rx_packets": 1437,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 239407,
+                "tx_packets": 1735,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "60784",
+                "ppid": "60759",
+                "pgid": "60784",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "13:40",
+                "nice": "0",
+                "rss": "35m",
+                "vsz": "1.1g",
+                "command": "/nodejs/bin/node index.js"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "fb0ea3b4800ee63cad49624df41b5cf5d510568da87ff515ef179c8ba7eb8be2",
+        "name": "creators_webapp_1",
+        "image": "creators_webapp",
+        "imageID": "sha256:7f98a3582997bf4cb75cbedb64399d586fe9d0dafcf825cf544a25aac2118c13",
+        "command": "/nodejs/bin/node server.js",
+        "created": 1549371216,
+        "state": "running",
+        "ports": [],
+        "mounts": [
+            {
+                "Type": "volume",
+                "Name": "91dd719331d048f4123e4587b8d4ab6dc7f9bc15dac0a7428e0b8b868bb9c49c",
+                "Source": "",
+                "Destination": "/usr/src/app/build",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "mem_usage": 182706176,
+        "mem_limit": 5189931008,
+        "mem_percent": 3.5203970094856416,
+        "cpu_percent": 0,
+        "pids": 10,
+        "netIO": {
+            "rx": 1639908,
+            "tx": 179417
+        },
+        "blockIO": {
+            "r": 0,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 24102658471,
+                "percpu_usage": [
+                    7338919958,
+                    9347909340,
+                    7415829173
+                ],
+                "usage_in_kernelmode": 2820000000,
+                "usage_in_usermode": 20770000000
+            },
+            "system_cpu_usage": 134101400000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 24102658471,
+                "percpu_usage": [
+                    7338919958,
+                    9347909340,
+                    7415829173
+                ],
+                "usage_in_kernelmode": 2820000000,
+                "usage_in_usermode": 20770000000
+            },
+            "system_cpu_usage": 134098310000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 182706176,
+            "max_usage": 368111616,
+            "stats": {
+                "active_anon": 155631616,
+                "active_file": 0,
+                "cache": 17698816,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 17698816,
+                "mapped_file": 0,
+                "pgfault": 128962,
+                "pgmajfault": 0,
+                "pgpgin": 132714,
+                "pgpgout": 90397,
+                "rss": 155631616,
+                "rss_huge": 0,
+                "total_active_anon": 155631616,
+                "total_active_file": 0,
+                "total_cache": 17698816,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 17698816,
+                "total_mapped_file": 0,
+                "total_pgfault": 128962,
+                "total_pgmajfault": 0,
+                "total_pgpgin": 132714,
+                "total_pgpgout": 90397,
+                "total_rss": 155631616,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 1639908,
+                "rx_packets": 822,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 179417,
+                "tx_packets": 1256,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "59716",
+                "ppid": "59683",
+                "pgid": "59716",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:24",
+                "elapsed": "13:47",
+                "nice": "0",
+                "rss": "170m",
+                "vsz": "1.2g",
+                "command": "/nodejs/bin/node server.js"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "9e6fb606bfcf3f29d64050df78246585a52ce8052cd3037de302ef8a6bf71348",
+        "name": "creators_postgres_1",
+        "image": "creators_postgres",
+        "imageID": "sha256:44a00ac8d5475ab57522b6fb03c1921b548bf25611d9cb898a64a6a3d7cb7fa4",
+        "command": "docker-entrypoint.sh postgres",
+        "created": 1549371215,
+        "state": "running",
+        "ports": [
+            {
+                "IP": "0.0.0.0",
+                "PrivatePort": 5432,
+                "PublicPort": 5432,
+                "Type": "tcp"
+            }
+        ],
+        "mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/mysocial/creators/data/pg",
+                "Destination": "/var/lib/postgresql/data",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/mysocial/creators/data/backup",
+                "Destination": "/backup",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "mem_usage": 41852928,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.8064255177089243,
+        "cpu_percent": 0.01299720394736842,
+        "pids": 9,
+        "netIO": {
+            "rx": 515652,
+            "tx": 4337822
+        },
+        "blockIO": {
+            "r": 0,
+            "w": 4096
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 9285267074,
+                "percpu_usage": [
+                    1212995351,
+                    5256885065,
+                    2815386658
+                ],
+                "usage_in_kernelmode": 3580000000,
+                "usage_in_usermode": 3860000000
+            },
+            "system_cpu_usage": 134101330000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 9285135369,
+                "percpu_usage": [
+                    1212995351,
+                    5256753360,
+                    2815386658
+                ],
+                "usage_in_kernelmode": 3580000000,
+                "usage_in_usermode": 3860000000
+            },
+            "system_cpu_usage": 134098290000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 41852928,
+            "max_usage": 49676288,
+            "stats": {
+                "active_anon": 22994944,
+                "active_file": 4096,
+                "cache": 26771456,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 10190848,
+                "inactive_file": 4444160,
+                "mapped_file": 17432576,
+                "pgfault": 78664,
+                "pgmajfault": 0,
+                "pgpgin": 63265,
+                "pgpgout": 54077,
+                "rss": 10862592,
+                "rss_huge": 0,
+                "total_active_anon": 22994944,
+                "total_active_file": 4096,
+                "total_cache": 26771456,
+                "total_dirty": 0,
+                "total_inactive_anon": 10190848,
+                "total_inactive_file": 4444160,
+                "total_mapped_file": 17432576,
+                "total_pgfault": 78664,
+                "total_pgmajfault": 0,
+                "total_pgpgin": 63265,
+                "total_pgpgout": 54077,
+                "total_rss": 10862592,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 515652,
+                "rx_packets": 3499,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 4337822,
+                "tx_packets": 2699,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "59547",
+                "ppid": "59523",
+                "pgid": "59547",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:48",
+                "nice": "0",
+                "rss": "22m",
+                "vsz": "284m",
+                "command": "postgres"
+            },
+            {
+                "pid_host": "60913",
+                "ppid": "59547",
+                "pgid": "60913",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:39",
+                "nice": "0",
+                "rss": "9644",
+                "vsz": "284m",
+                "command": "postgres: checkpointer process"
+            },
+            {
+                "pid_host": "60914",
+                "ppid": "59547",
+                "pgid": "60914",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:39",
+                "nice": "0",
+                "rss": "3960",
+                "vsz": "284m",
+                "command": "postgres: writer process"
+            },
+            {
+                "pid_host": "60915",
+                "ppid": "59547",
+                "pgid": "60915",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:39",
+                "nice": "0",
+                "rss": "8664",
+                "vsz": "284m",
+                "command": "postgres: wal writer process"
+            },
+            {
+                "pid_host": "60916",
+                "ppid": "59547",
+                "pgid": "60916",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:39",
+                "nice": "0",
+                "rss": "6596",
+                "vsz": "285m",
+                "command": "postgres: autovacuum launcher process"
+            },
+            {
+                "pid_host": "60917",
+                "ppid": "59547",
+                "pgid": "60917",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:39",
+                "nice": "0",
+                "rss": "3984",
+                "vsz": "151m",
+                "command": "postgres: stats collector process"
+            },
+            {
+                "pid_host": "60923",
+                "ppid": "59547",
+                "pgid": "60923",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "13:38",
+                "nice": "0",
+                "rss": "8716",
+                "vsz": "289m",
+                "command": "postgres: mysocial mysocial 192.168.160.4(40886) idle"
+            },
+            {
+                "pid_host": "64246",
+                "ppid": "59547",
+                "pgid": "64246",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "4:37",
+                "nice": "0",
+                "rss": "25m",
+                "vsz": "288m",
+                "command": "postgres: mysocial mysocial 192.168.160.4(41122) idle"
+            },
+            {
+                "pid_host": "71290",
+                "ppid": "59547",
+                "pgid": "71290",
+                "user": "999",
+                "ruser": "999",
+                "group": "ping",
+                "rgroup": "ping",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "0:05",
+                "nice": "0",
+                "rss": "11m",
+                "vsz": "289m",
+                "command": "postgres: mysocial mysocial 192.168.160.3(57342) idle"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "0a7fe163ff69635b42abaa0ffd1375316908ec9070fb88ae0b8473b51a1ad64b",
+        "name": "rapha_api_1",
+        "image": "rapha_api",
+        "imageID": "sha256:095bb84c5da66e41cc5e5d074d57ca109998f34a1de23fd296a991a8a8b3696c",
+        "command": "yarn start:dev:api",
+        "created": 1549363539,
+        "state": "running",
+        "ports": [
+            {
+                "IP": "0.0.0.0",
+                "PrivatePort": 8080,
+                "PublicPort": 5050,
+                "Type": "tcp"
+            }
+        ],
+        "mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/build",
+                "Destination": "/usr/src/app/build",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/src",
+                "Destination": "/usr/src/app/src",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/ssr",
+                "Destination": "/usr/src/app/ssr",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "mem_usage": 184975360,
+        "mem_limit": 5189931008,
+        "mem_percent": 3.5641198257716797,
+        "cpu_percent": 0.04215964630225081,
+        "pids": 34,
+        "netIO": {
+            "rx": 7091578,
+            "tx": 7709181
+        },
+        "blockIO": {
+            "r": 13529088,
+            "w": 19124224
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 300130790943,
+                "percpu_usage": [
+                    255036933380,
+                    21680222149,
+                    23413635414
+                ],
+                "usage_in_kernelmode": 14100000000,
+                "usage_in_usermode": 43630000000
+            },
+            "system_cpu_usage": 134101430000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 300130353888,
+                "percpu_usage": [
+                    255036933380,
+                    21680222149,
+                    23413198359
+                ],
+                "usage_in_kernelmode": 14100000000,
+                "usage_in_usermode": 43620000000
+            },
+            "system_cpu_usage": 134098320000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 184975360,
+            "max_usage": 196292608,
+            "stats": {
+                "active_anon": 88825856,
+                "active_file": 9990144,
+                "cache": 13619200,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 70852608,
+                "inactive_file": 3629056,
+                "mapped_file": 0,
+                "pgfault": 726081,
+                "pgmajfault": 1,
+                "pgpgin": 330462,
+                "pgpgout": 288153,
+                "rss": 159678464,
+                "rss_huge": 0,
+                "total_active_anon": 88825856,
+                "total_active_file": 9990144,
+                "total_cache": 13619200,
+                "total_dirty": 0,
+                "total_inactive_anon": 70852608,
+                "total_inactive_file": 3629056,
+                "total_mapped_file": 0,
+                "total_pgfault": 726081,
+                "total_pgmajfault": 1,
+                "total_pgpgin": 330462,
+                "total_pgpgout": 288153,
+                "total_rss": 159678464,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 7091578,
+                "rx_packets": 17030,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 7709181,
+                "tx_packets": 19567,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "7769",
+                "ppid": "7720",
+                "pgid": "7769",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:02",
+                "elapsed": "1h26",
+                "nice": "0",
+                "rss": "74m",
+                "vsz": "332m",
+                "command": "node /opt/yarn-v1.12.3/bin/yarn.js start:dev:api"
+            },
+            {
+                "pid_host": "8188",
+                "ppid": "7769",
+                "pgid": "7769",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "1h26",
+                "nice": "0",
+                "rss": "8",
+                "vsz": "1588",
+                "command": "{node} /bin/sh /tmp/yarn--1549363543201-0.6544194518629731/node ./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js"
+            },
+            {
+                "pid_host": "8189",
+                "ppid": "8188",
+                "pgid": "7769",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "1h26",
+                "nice": "0",
+                "rss": "50m",
+                "vsz": "293m",
+                "command": "/usr/local/bin/node ./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js"
+            },
+            {
+                "pid_host": "13291",
+                "ppid": "8189",
+                "pgid": "7769",
+                "user": "root",
+                "ruser": "root",
+                "group": "root",
+                "rgroup": "root",
+                "stat": "S",
+                "time": "4:39",
+                "elapsed": "1h17",
+                "nice": "0",
+                "rss": "115m",
+                "vsz": "352m",
+                "command": "/usr/local/bin/node index.dev.js"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "f9885e770ef38e276329ff6c9a847e67fd739b06a2b359e0867a4b6e41846d94",
+        "name": "rapha_grafana_1",
+        "image": "grafana/grafana",
+        "imageID": "sha256:d0454da13c8411af06d6dbd5fa4b291ca30f5de1b53c1d0480c43ab51bdf8071",
+        "command": "/run.sh",
+        "created": 1549360476,
+        "state": "running",
+        "ports": [
+            {
+                "IP": "0.0.0.0",
+                "PrivatePort": 3000,
+                "PublicPort": 3000,
+                "Type": "tcp"
+            }
+        ],
+        "mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/data/grafana",
+                "Destination": "/var/lib/grafana",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "mem_usage": 19775488,
+        "mem_limit": 5189931008,
+        "mem_percent": 0.3810356625072115,
+        "cpu_percent": 0.08129123376623376,
+        "pids": 13,
+        "netIO": {
+            "rx": 1024805,
+            "tx": 797327
+        },
+        "blockIO": {
+            "r": 1691648,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 3761655534,
+                "percpu_usage": [
+                    1075347342,
+                    1296386309,
+                    1389921883
+                ],
+                "usage_in_kernelmode": 1280000000,
+                "usage_in_usermode": 2390000000
+            },
+            "system_cpu_usage": 134101380000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 3760820944,
+                "percpu_usage": [
+                    1075254288,
+                    1296072100,
+                    1389494556
+                ],
+                "usage_in_kernelmode": 1280000000,
+                "usage_in_usermode": 2390000000
+            },
+            "system_cpu_usage": 134098300000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 19775488,
+            "max_usage": 20041728,
+            "stats": {
+                "active_anon": 15978496,
+                "active_file": 24576,
+                "cache": 1990656,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 0,
+                "inactive_file": 1957888,
+                "mapped_file": 122880,
+                "pgfault": 6804,
+                "pgmajfault": 28,
+                "pgpgin": 5568,
+                "pgpgout": 1181,
+                "rss": 15978496,
+                "rss_huge": 0,
+                "total_active_anon": 15978496,
+                "total_active_file": 24576,
+                "total_cache": 1990656,
+                "total_dirty": 0,
+                "total_inactive_anon": 0,
+                "total_inactive_file": 1957888,
+                "total_mapped_file": 122880,
+                "total_pgfault": 6804,
+                "total_pgmajfault": 28,
+                "total_pgpgin": 5568,
+                "total_pgpgout": 1181,
+                "total_rss": 15978496,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 1024805,
+                "rx_packets": 1089,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 797327,
+                "tx_packets": 1268,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "63793",
+                "ppid": "63769",
+                "pgid": "63793",
+                "user": "472",
+                "ruser": "472",
+                "group": "472",
+                "rgroup": "472",
+                "stat": "S",
+                "time": "0:03",
+                "elapsed": "5:29",
+                "nice": "0",
+                "rss": "38m",
+                "vsz": "878m",
+                "command": "grafana-server --homepath=/usr/share/grafana --config=/etc/grafana/grafana.ini --packaging=docker cfg:default.log.mode=console cfg:default.paths.data=/var/lib/grafana cfg:default.paths.logs=/var/log/grafana cfg:default.paths.plugins=/var/lib/grafana/plugins cfg:default.paths.provisioning=/etc/grafana/provisioning"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "2f997d88d8578e9a6d7d2ebf0930ef5c8b55a30f6b99a5b59ccffeddc045e9ce",
+        "name": "rapha_postgres_1",
+        "image": "timescale/timescaledb:1.2.0-pg11",
+        "imageID": "sha256:7576eefde219e925c2d97650cc34387564212ea53978e3775f0db0831b9fd465",
+        "command": "docker-entrypoint.sh postgres",
+        "created": 1549360466,
+        "state": "running",
+        "ports": [
+            {
+                "IP": "0.0.0.0",
+                "PrivatePort": 5432,
+                "PublicPort": 5555,
+                "Type": "tcp"
+            }
+        ],
+        "mounts": [
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/data/backup",
+                "Destination": "/backup",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/Users/marcopeg/dev/marcopeg/rapha/data/pg",
+                "Destination": "/var/lib/postgresql/data",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "mem_usage": 79093760,
+        "mem_limit": 5189931008,
+        "mem_percent": 1.5239848059267302,
+        "cpu_percent": 0.019123928571428573,
+        "pids": 12,
+        "netIO": {
+            "rx": 26467462,
+            "tx": 54219644
+        },
+        "blockIO": {
+            "r": 8847360,
+            "w": 4096
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 303717910532,
+                "percpu_usage": [
+                    19700755985,
+                    21496452877,
+                    262520701670
+                ],
+                "usage_in_kernelmode": 28100000000,
+                "usage_in_usermode": 29780000000
+            },
+            "system_cpu_usage": 134101380000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 303717714193,
+                "percpu_usage": [
+                    19700755985,
+                    21496256538,
+                    262520701670
+                ],
+                "usage_in_kernelmode": 28100000000,
+                "usage_in_usermode": 29780000000
+            },
+            "system_cpu_usage": 134098300000000,
+            "online_cpus": 3,
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {
+            "usage": 79093760,
+            "max_usage": 115982336,
+            "stats": {
+                "active_anon": 43347968,
+                "active_file": 4644864,
+                "cache": 64483328,
+                "dirty": 0,
+                "hierarchical_memory_limit": 9223372036854772000,
+                "hierarchical_memsw_limit": 9223372036854772000,
+                "inactive_anon": 23343104,
+                "inactive_file": 4243456,
+                "mapped_file": 59002880,
+                "pgfault": 1304158,
+                "pgmajfault": 111,
+                "pgpgin": 920218,
+                "pgpgout": 901766,
+                "rss": 11096064,
+                "rss_huge": 0,
+                "total_active_anon": 43347968,
+                "total_active_file": 4644864,
+                "total_cache": 64483328,
+                "total_dirty": 0,
+                "total_inactive_anon": 23343104,
+                "total_inactive_file": 4243456,
+                "total_mapped_file": 59002880,
+                "total_pgfault": 1304158,
+                "total_pgmajfault": 111,
+                "total_pgpgin": 920218,
+                "total_pgpgout": 901766,
+                "total_rss": 11096064,
+                "total_rss_huge": 0,
+                "total_unevictable": 0,
+                "total_writeback": 0,
+                "unevictable": 0,
+                "writeback": 0
+            },
+            "limit": 5189931008
+        },
+        "networks": {
+            "eth0": {
+                "rx_bytes": 26467462,
+                "rx_packets": 36742,
+                "rx_errors": 0,
+                "rx_dropped": 0,
+                "tx_bytes": 54219644,
+                "tx_packets": 29995,
+                "tx_errors": 0,
+                "tx_dropped": 0
+            }
+        },
+        "processes": [
+            {
+                "pid_host": "10593",
+                "ppid": "10576",
+                "pgid": "10593",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "49m",
+                "vsz": "1.3g",
+                "command": "postgres"
+            },
+            {
+                "pid_host": "10796",
+                "ppid": "10593",
+                "pgid": "10796",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "22m",
+                "vsz": "1.3g",
+                "command": "postgres: checkpointer"
+            },
+            {
+                "pid_host": "10797",
+                "ppid": "10593",
+                "pgid": "10797",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "14m",
+                "vsz": "1.3g",
+                "command": "postgres: background writer"
+            },
+            {
+                "pid_host": "10798",
+                "ppid": "10593",
+                "pgid": "10798",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:03",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "18m",
+                "vsz": "1.3g",
+                "command": "postgres: walwriter"
+            },
+            {
+                "pid_host": "10799",
+                "ppid": "10593",
+                "pgid": "10799",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "4680",
+                "vsz": "1.3g",
+                "command": "postgres: autovacuum launcher"
+            },
+            {
+                "pid_host": "10800",
+                "ppid": "10593",
+                "pgid": "10800",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:01",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "1712",
+                "vsz": "63m",
+                "command": "postgres: stats collector"
+            },
+            {
+                "pid_host": "10801",
+                "ppid": "10593",
+                "pgid": "10801",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "3016",
+                "vsz": "1.3g",
+                "command": "postgres: TimescaleDB Background Worker Launcher"
+            },
+            {
+                "pid_host": "10802",
+                "ppid": "10593",
+                "pgid": "10802",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "2980",
+                "vsz": "1.3g",
+                "command": "postgres: logical replication launcher"
+            },
+            {
+                "pid_host": "10803",
+                "ppid": "10593",
+                "pgid": "10803",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "2h17",
+                "nice": "0",
+                "rss": "12m",
+                "vsz": "1.3g",
+                "command": "postgres: TimescaleDB Background Worker Scheduler"
+            },
+            {
+                "pid_host": "44649",
+                "ppid": "10593",
+                "pgid": "44649",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "34:48",
+                "nice": "0",
+                "rss": "32m",
+                "vsz": "1.3g",
+                "command": "postgres: postgres postgres 172.21.0.1(44416) idle"
+            },
+            {
+                "pid_host": "63978",
+                "ppid": "10593",
+                "pgid": "63978",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "5:24",
+                "nice": "0",
+                "rss": "17m",
+                "vsz": "1.3g",
+                "command": "postgres: postgres postgres 172.21.0.5(50508) idle"
+            },
+            {
+                "pid_host": "63979",
+                "ppid": "10593",
+                "pgid": "63979",
+                "user": "postgres",
+                "ruser": "postgres",
+                "group": "postgres",
+                "rgroup": "postgres",
+                "stat": "S",
+                "time": "0:00",
+                "elapsed": "5:24",
+                "nice": "0",
+                "rss": "17m",
+                "vsz": "1.3g",
+                "command": "postgres: postgres postgres 172.21.0.5(50510) idle"
+            }
+        ],
+        "isDaemon": false
+    },
+    {
+        "id": "fc448608e8120b18045a327f5296b5231e149c7f6748623598b96790e1472c8c",
+        "name": "elegant_davinci",
+        "image": "sha256:628df34bfc4026a79f870488cdbc8add82255d317d13d98283b72fb3ea6a62e9",
+        "imageID": "sha256:628df34bfc4026a79f870488cdbc8add82255d317d13d98283b72fb3ea6a62e9",
+        "command": "/bin/sh -c 'npm run build:ssr'",
+        "created": 1549282263,
+        "state": "exited",
+        "ports": [],
+        "mounts": [],
+        "mem_usage": 0,
+        "mem_limit": 0,
+        "mem_percent": 0,
+        "cpu_percent": 0,
+        "pids": 0,
+        "netIO": {
+            "rx": 0,
+            "wx": 0
+        },
+        "blockIO": {
+            "r": 0,
+            "w": 0
+        },
+        "cpu_stats": {
+            "cpu_usage": {
+                "total_usage": 0,
+                "usage_in_kernelmode": 0,
+                "usage_in_usermode": 0
+            },
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "precpu_stats": {
+            "cpu_usage": {
+                "total_usage": 0,
+                "usage_in_kernelmode": 0,
+                "usage_in_usermode": 0
+            },
+            "throttling_data": {
+                "periods": 0,
+                "throttled_periods": 0,
+                "throttled_time": 0
+            }
+        },
+        "memory_stats": {},
+        "networks": {},
+        "processes": [],
+        "isDaemon": false
+    }
+]

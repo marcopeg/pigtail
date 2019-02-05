@@ -3,9 +3,8 @@ import { FEATURE_NAME } from './hooks'
 import { runQuery } from './lib/graphql'
 import { sendMetrics } from './lib/send-metrics'
 
-import * as containersPoolService from './services/containers-pool'
-import * as logsPoolService from './services/logs-pool'
-import * as metricsPoolService from './services/metrics-pool'
+import * as containersMetricsService from './services/containers-metrics'
+import * as containersLogsService from './services/containers-logs'
 import * as flusherService from './services/flusher'
 
 export const register = ({ registerAction, settings }) => {
@@ -22,10 +21,9 @@ export const register = ({ registerAction, settings }) => {
         hook: START_SERVICE,
         name: FEATURE_NAME,
         trace: __filename,
-        handler: async ({ containersPool, logsPool, metricsPool, flusher }) => {
-            containersPoolService.start(containersPool)
-            logsPoolService.start(logsPool)
-            metricsPoolService.start(metricsPool)
+        handler: async ({ containersStats, containersLogs, flusher }) => {
+            containersMetricsService.start(containersStats)
+            containersLogsService.start(containersLogs)
             flusherService.start(flusher)
         },
     })

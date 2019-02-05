@@ -1,7 +1,6 @@
 import { logError, logInfo } from 'ssr/services/logger'
-import { getContainersIdMap } from './containers-pool'
-import { flushLogs } from './logs-pool'
-import { flushMetrics } from './metrics-pool'
+import { flushContainersLogs } from './containers-logs'
+import { flushContainersMetrics } from './containers-metrics'
 import { sendMetrics } from '../lib/send-metrics'
 
 const ctx = {
@@ -11,16 +10,12 @@ const ctx = {
     },
 }
 
-const getLogsRecords = async (limit, containers) => {
-    const containersId = Object.keys(containers)
-    const logs = flushLogs(limit)
-
+const getLogsRecords = async (limit) => {
+    const logs = flushContainersLogs(limit)
     const records = logs.records
-        .filter(record => containersId.includes(record.cid))
         .map(record => ({
-            ctime: record.log.time,
             host: 'xxx',
-            container: containers[record.cid].name,
+            container: record.container.name,
             message: record.log.log,
             meta: {
                 stream: record.log.stream,
@@ -35,42 +30,45 @@ const getLogsRecords = async (limit, containers) => {
 }
 
 const getMetricRecords = async (limit) => {
-    const logs = flushMetrics(limit)
-    const records = logs.records
+    const stats = flushContainersMetrics(limit)
+    const records = stats.records
         .map(record => ({
             ...record,
             host: 'xxx',
         }))
     
     return {
-        ...logs,
+        ...stats,
         records,
     }
 }
 
 const flusherLoop = async () => {
+    const start = new Date()
     if (!ctx.flusher.isRunning) return
 
-    const { metricsLimit, logsLimit } = ctx.settings
-    
-    const containers = getContainersIdMap()
-    const metrics = await getMetricRecords(metricsLimit)
-    const logs = await getLogsRecords(logsLimit, containers)
+    const { maxMetricsBatch, maxLogsBatch } = ctx.settings
+    const metrics = await getMetricRecords(maxMetricsBatch)
+    const logs = await getLogsRecords(maxLogsBatch)
 
-    let timeout = (metrics.records.length === metricsLimit || logs.records.length === logsLimit)
-        ? ctx.settings.timeout
-        : ctx.settings.emptyTimeout
+    let interval = (metrics.records.length === maxMetricsBatch || logs.records.length === maxLogsBatch)
+        ? ctx.settings.interval
+        : ctx.settings.emptyInterval
 
     try {
         await sendMetrics(metrics.records, logs.records)
-        logs.commit()
         metrics.commit()
+        logs.commit()
     } catch (err) {
-        timeout = ctx.settings.errorTimeout
+        interval = ctx.settings.errorInterval
         logError(`[flusher] ${err.message} - metrics: ${metrics.records.length}, logs: ${logs.records.length}`)
     }
 
-    ctx.flusher.timer = setTimeout(flusherLoop, timeout)
+    // calculate next execution timeout based on execution time
+    const lapsed = new Date() - start
+    interval = interval > lapsed ? interval - lapsed : 0
+
+    ctx.flusher.timer = setTimeout(flusherLoop, interval)
 }
 
 

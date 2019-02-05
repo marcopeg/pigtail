@@ -1,0 +1,44 @@
+{
+    "id": "0a7fe163ff69635b42abaa0ffd1375316908ec9070fb88ae0b8473b51a1ad64b",
+    "name": "rapha_api_1",
+    "image": "rapha_api",
+    "imageID": "sha256:095bb84c5da66e41cc5e5d074d57ca109998f34a1de23fd296a991a8a8b3696c",
+    "command": "yarn start:dev:api",
+    "created": 1549363539,
+    "state": "running",
+    "ports": [
+        {
+            "IP": "0.0.0.0",
+            "PrivatePort": 8080,
+            "PublicPort": 5050,
+            "Type": "tcp"
+        }
+    ],
+    "mounts": [
+        {
+            "Type": "bind",
+            "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/ssr",
+            "Destination": "/usr/src/app/ssr",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+        },
+        {
+            "Type": "bind",
+            "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/build",
+            "Destination": "/usr/src/app/build",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+        },
+        {
+            "Type": "bind",
+            "Source": "/Users/marcopeg/dev/marcopeg/rapha/services/webapp/src",
+            "Destination": "/usr/src/app/src",
+            "Mode": "rw",
+            "RW": true,
+            "Propagation": "rprivate"
+        }
+    ],
+    "isDaemon": false
+}

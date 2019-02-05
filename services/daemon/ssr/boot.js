@@ -17,7 +17,7 @@ const services = [
 
 const features = [
     require('./features/metric-cpu-percent-tot'),
-    require('./features/metric-mem-percent-tot'),
+    require('./features/metric-mem-usage-tot'),
     require('./features/api-send'),
 ]
 
@@ -30,27 +30,23 @@ registerAction({
             token: config.get('API_TOKEN'),
         }
 
-        settings.containersPool = {
-            timeout: config.get('CONTAINERS_POOL_TIMEOUT', 1000),
+        settings.containersStats = {
+            interval: config.get('CONTAINERS_STATS_INTERVAL', 1000),
         }
 
-        settings.logsPool = {
-            timeout: config.get('LOGS_POOL_TIMEOUT', 1000),
-        }
-        
-        settings.metricsPool = {
-            timeout: config.get('METRICS_POOL_TIMEOUT', 1000),
+        settings.containersLogs = {
+            interval: config.get('CONTAINERS_LOGS_INTERVAL', 1000),
         }
 
         settings.flusher = {
             // batch amount of data that get flushed
-            metricsLimit: config.get('FLUSHER_METRICS_LIMIT', 100),
-            logsLimit: config.get('FLUSHER_LOGD_SIMIT', 100),
+            maxMetricsBatch: config.get('FLUSHER_MAX_METRICS_BATCH', 100),
+            maxLogsBatch: config.get('FLUSHER_MAX_LOGS_BATCH', 100),
 
             // timeouts
-            emptyTimeout: config.get('FLUSHER_EMPTY_TIMEOUT', 2500),
-            errorTimeout: config.get('FLUSHER_ERROR_TIMEOUT', 5000),
-            timeout: config.get('FLUSHER_TIMEOUT', 1),
+            emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 2500),
+            errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
+            interval: config.get('FLUSHER_INTERVAL', 1),
         }
     },
 })
