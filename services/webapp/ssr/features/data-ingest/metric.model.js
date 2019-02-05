@@ -7,11 +7,19 @@ const fields = {
         type: Sequelize.DATE,
         primaryKey: true,
     },
+    host: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+    },
     metric: {
         type: Sequelize.STRING,
         primaryKey: true,
     },
     value: {
+        type: Sequelize.JSONB,
+        allowNull: false,
+    },
+    meta: {
         type: Sequelize.JSONB,
         allowNull: false,
     },

@@ -1,11 +1,7 @@
 import si from 'systeminformation'
 import { createHook } from '@marcopeg/hooks'
 import { CONTAINER_RECORD_METRICS, CONTAINERS_COMPUTED_METRICS } from '../hooks'
-// import { logError } from 'ssr/services/logger'
 import { getRunningContainers } from './containers-pool'
-// import { flushLogs } from './logs-pool'
-// import { sendMetrics } from '../lib/send-metrics'
-
 
 const ctx = {
     metrics: {
@@ -42,34 +38,31 @@ const getContainersMetrics = async (containers) => {
 const metricsLoop = async () => {
     if (!ctx.metrics.isRunning) return
 
-    const loop = () => {
-        ctx.metrics.timer = setTimeout(metricsLoop, ctx.metrics.timeout)
-    }
+    const ctime = new Date()
+    const push = (metric, value) =>
+    ctx.records.push({
+        metric,
+        value,
+        ctime,
+    })
     
     const containers = getRunningContainers()
     const containersMetrics = await getContainersMetrics(containers)
     
-    if (containers.length === 0) {
-        loop()
-        return
+    if (containers.length !== 0) {
+        push('containers', containersMetrics.reduce(containerMetricReducer, {}))
+
+        // extend with computed metrics
+        createHook(CONTAINERS_COMPUTED_METRICS, {
+            args: {
+                push,
+                containers: containersMetrics,
+            } 
+        })
     }
 
-    ctx.records.push({
-        metric: 'containers',
-        value: containersMetrics.reduce(containerMetricReducer, {}),
-    })
-
-    // extend with computed metrics
-    createHook(CONTAINERS_COMPUTED_METRICS, {
-        args: {
-            containers: containersMetrics,
-            push: record => ctx.records.push(record),
-        } 
-    })
-
-    console.log(ctx.records)
-
-    loop()
+    // console.log(ctx.records)
+    ctx.metrics.timer = setTimeout(metricsLoop, ctx.metrics.timeout)
 }
 
 
@@ -84,4 +77,15 @@ export const start = ({ refreshInterval } = {}) => {
 export const stop = () => {
     ctx.metrics.isRunning = false
     clearTimeout(ctx.metrics.timer)
+}
+
+// returns a list of records to flush, plus a "commit callback" to be
+// invoked when the operation is completed to actually remove the
+// flushed records from memory
+export const flushMetrics = () => {
+    const flushLen = ctx.records.length
+    return {
+        records: ctx.records.slice(0, flushLen),
+        commit: () => ctx.records.splice(0, flushLen),
+    }
 }

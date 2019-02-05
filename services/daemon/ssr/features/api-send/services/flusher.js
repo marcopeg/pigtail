@@ -1,8 +1,8 @@
 import { logError } from 'ssr/services/logger'
 import { getContainersIdMap } from './containers-pool'
 import { flushLogs } from './logs-pool'
+import { flushMetrics } from './metrics-pool'
 import { sendMetrics } from '../lib/send-metrics'
-
 
 const ctx = {
     flusher: {
@@ -35,16 +35,31 @@ const getLogsRecords = async (containers) => {
     }
 }
 
+const getMetricRecords = async () => {
+    const logs = flushMetrics()
+    const records = logs.records
+        .map(record => ({
+            ...record,
+            host: 'xxx',
+        }))
+    
+    return {
+        ...logs,
+        records,
+    }
+}
+
 const flusherLoop = async () => {
     if (!ctx.flusher.isRunning) return
     
     const containers = getContainersIdMap()
-    const metrics = []
+    const metrics = await getMetricRecords()
     const logs = await getLogsRecords(containers)
 
     try {
-        await sendMetrics(metrics, logs.records)
+        await sendMetrics(metrics.records, logs.records)
         logs.commit()
+        metrics.commit()
     } catch (err) {
         logError(err.message)
     }

@@ -16,6 +16,8 @@ const services = [
 ]
 
 const features = [
+    require('./features/metric-cpu-percent-tot'),
+    require('./features/metric-mem-percent-tot'),
     require('./features/api-send'),
 ]
 
@@ -35,13 +37,6 @@ registerAction({
     name: '♦ boot',
     handler: () => logBoot(),
 })
-
-// registerAction({
-//     hook: require('./features/api-send/hooks').CONTAINER_RECORD_METRICS,
-//     handler: (args) => {
-//         args.record.foo = 123
-//     }
-// })
 
 export default createHookApp({
     settings: { cwd: process.cwd() },

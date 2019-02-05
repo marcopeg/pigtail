@@ -3,7 +3,6 @@ import {
     GraphQLList,
     GraphQLInputObjectType,
     GraphQLString,
-    GraphQLFloat,
     GraphQLBoolean,
 } from 'graphql'
 
@@ -20,11 +19,17 @@ export const trackMetrics = () => ({
             type: new GraphQLNonNull(new GraphQLList(new GraphQLInputObjectType({
                 name: 'MetricRecord',
                 fields: {
+                    host: {
+                        type: new GraphQLNonNull(GraphQLString),
+                    },
                     metric: {
                         type: new GraphQLNonNull(GraphQLString),
                     },
                     value: {
                         type: new GraphQLNonNull(GraphQLJSON),
+                    },
+                    meta: {
+                        type: GraphQLJSON,
                     },
                     ctime: {
                         type: GraphQLDateTime,
@@ -38,6 +43,7 @@ export const trackMetrics = () => ({
         await getModel(Metric).bulkCreate(args.data.map(record => ({
             ...record,
             ctime: record.ctime || new Date(),
+            meta: record.meta || {},
         })))
         return true
     },
