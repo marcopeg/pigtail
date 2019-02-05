@@ -1,4 +1,7 @@
+import bodyParser from 'body-parser'
+
 import { POSTGRES_BEFORE_START } from 'ssr/services/postgres/hooks'
+import { EXPRESS_MIDDLEWARE } from 'ssr/services/express/hooks'
 import { API_TOKEN_QUERIES } from 'ssr/features/api-token/hooks'
 import { FEATURE_NAME } from './hooks'
 
@@ -25,6 +28,17 @@ export const register = ({ registerAction }) => {
         handler: ({ queries, mutations }) => {
             mutations.trackMetrics = trackMetrics()
             mutations.trackLogs = trackLogs()
+        },
+    })
+
+    registerAction({
+        hook: EXPRESS_MIDDLEWARE,
+        name: FEATURE_NAME,
+        trace: __filename,
+        handler: async ({ app, settings }) => {
+            app.use(bodyParser.json({
+                limit: settings.jsonBodyLimit,
+            }))
         },
     })
 }

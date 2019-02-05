@@ -1,5 +1,6 @@
 import si from 'systeminformation'
 import { createHook } from '@marcopeg/hooks'
+import { logInfo } from 'ssr/services/logger'
 import { CONTAINER_RECORD_METRICS, CONTAINERS_COMPUTED_METRICS } from '../hooks'
 import { getRunningContainers } from './containers-pool'
 
@@ -82,8 +83,13 @@ export const stop = () => {
 // returns a list of records to flush, plus a "commit callback" to be
 // invoked when the operation is completed to actually remove the
 // flushed records from memory
-export const flushMetrics = () => {
-    const flushLen = ctx.records.length
+export const flushMetrics = (limit = null) => {
+    const flushLen = (limit !== null && limit < ctx.records.length)
+        ? limit
+        : ctx.records.length
+
+    logInfo(`[flushMetrics] send ${flushLen} of ${ctx.records.length}`)
+
     return {
         records: ctx.records.slice(0, flushLen),
         commit: () => ctx.records.splice(0, flushLen),

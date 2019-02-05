@@ -45,6 +45,7 @@ registerAction({
         settings.express = {
             nodeEnv: config.get('NODE_ENV'),
             port: config.get('SERVER_PORT'),
+            jsonBodyLimit: '1mb',
             graphql: {
                 mountPoint: config.get('GRAPHQL_MOUNT_POINT'),
             },

@@ -1,3 +1,5 @@
+import { logError } from 'ssr/services/logger'
+
 import {
     GraphQLNonNull,
     GraphQLList,
@@ -40,11 +42,15 @@ export const trackLogs = () => ({
     },
     type: GraphQLBoolean,
     resolve: async (params, args) => {
-        await getModel(Log).bulkCreate(args.data.map(record => ({
-            ...record,
-            ctime: record.ctime || new Date(),
-            meta: record.meta || {},
-        })))
-        return true
+        try {
+            await getModel(Log).bulkCreate(args.data.map(record => ({
+                ...record,
+                ctime: record.ctime || new Date(),
+                meta: record.meta || {},
+            })))
+            return true
+        } catch (err) {
+            logError(err)
+        }
     },
 })

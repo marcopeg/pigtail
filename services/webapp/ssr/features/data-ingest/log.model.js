@@ -5,19 +5,15 @@ export const name = 'Log'
 const fields = {
     ctime: {
         type: Sequelize.DATE,
-        primaryKey: true,
     },
     host: {
         type: Sequelize.STRING,
-        primaryKey: true,
     },
     container: {
         type: Sequelize.STRING,
-        primaryKey: true,
     },
     message: {
         type: Sequelize.TEXT,
-        primaryKey: true,
     },
     meta: {
         type: Sequelize.JSONB,

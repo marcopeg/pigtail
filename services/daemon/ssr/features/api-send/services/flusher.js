@@ -1,4 +1,4 @@
-import { logError } from 'ssr/services/logger'
+import { logError, logInfo } from 'ssr/services/logger'
 import { getContainersIdMap } from './containers-pool'
 import { flushLogs } from './logs-pool'
 import { flushMetrics } from './metrics-pool'
@@ -12,9 +12,9 @@ const ctx = {
     },
 }
 
-const getLogsRecords = async (containers) => {
+const getLogsRecords = async (limit, containers) => {
     const containersId = Object.keys(containers)
-    const logs = flushLogs()
+    const logs = flushLogs(limit)
 
     const records = logs.records
         .filter(record => containersId.includes(record.cid))
@@ -35,8 +35,8 @@ const getLogsRecords = async (containers) => {
     }
 }
 
-const getMetricRecords = async () => {
-    const logs = flushMetrics()
+const getMetricRecords = async (limit) => {
+    const logs = flushMetrics(limit)
     const records = logs.records
         .map(record => ({
             ...record,
@@ -51,20 +51,28 @@ const getMetricRecords = async () => {
 
 const flusherLoop = async () => {
     if (!ctx.flusher.isRunning) return
+
+    const metricsLimit = 100
+    const logsLimit = 100
     
     const containers = getContainersIdMap()
-    const metrics = await getMetricRecords()
-    const logs = await getLogsRecords(containers)
+    const metrics = await getMetricRecords(metricsLimit)
+    const logs = await getLogsRecords(logsLimit, containers)
+
+    let timeout = (metrics.records.length === metricsLimit || logs.records.length === logsLimit)
+        ? 0
+        : ctx.flusher.timeout
 
     try {
         await sendMetrics(metrics.records, logs.records)
         logs.commit()
         metrics.commit()
     } catch (err) {
-        logError(err.message)
+        timeout = ctx.flusher.timeout
+        logError(`[flusher] ${err.message} - metrics: ${metrics.records.length}, logs: ${logs.records.length}`)
     }
 
-    ctx.flusher.timer = setTimeout(flusherLoop, ctx.flusher.timeout)
+    ctx.flusher.timer = setTimeout(flusherLoop, timeout)
 }
 
 
