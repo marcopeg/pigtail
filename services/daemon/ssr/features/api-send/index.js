@@ -3,12 +3,12 @@ import { FEATURE_NAME } from './hooks'
 import { runQuery } from './lib/graphql'
 import { sendMetrics } from './lib/send-metrics'
 
-import * as containersPool from './services/containers-pool'
-import * as logsPool from './services/logs-pool'
-import * as metricsPool from './services/metrics-pool'
-import * as flusher from './services/flusher'
+import * as containersPoolService from './services/containers-pool'
+import * as logsPoolService from './services/logs-pool'
+import * as metricsPoolService from './services/metrics-pool'
+import * as flusherService from './services/flusher'
 
-export const register = ({ registerAction }) => {
+export const register = ({ registerAction, settings }) => {
     registerAction({
         hook: INIT_SERVICE,
         name: FEATURE_NAME,
@@ -22,11 +22,11 @@ export const register = ({ registerAction }) => {
         hook: START_SERVICE,
         name: FEATURE_NAME,
         trace: __filename,
-        handler: async () => {
-            containersPool.start()
-            logsPool.start()
-            metricsPool.start()
-            flusher.start()
+        handler: async ({ containersPool, logsPool, metricsPool, flusher }) => {
+            containersPoolService.start(containersPool)
+            logsPoolService.start(logsPool)
+            metricsPoolService.start(metricsPool)
+            flusherService.start(flusher)
         },
     })
 }

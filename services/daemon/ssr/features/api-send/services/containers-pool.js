@@ -6,7 +6,7 @@ const ctx = {
     currentCid: null,
     containers: {
         timer: null,
-        timeout: 1000,
+        settings: {},
         isRunning: true,
     },
     data: [],
@@ -24,15 +24,13 @@ const containersLoop = async () => {
         logError(err.message)
     }
 
-    ctx.containers.timer = setTimeout(containersLoop, ctx.containers.timeout)
+    ctx.containers.timer = setTimeout(containersLoop, ctx.settings.timeout)
 }
 
-export const start = async ({ refreshInterval } = {}) => {
+export const start = async (settings) => {
     ctx.currentCid = await getContainerId()
     ctx.containers.isRunning = true
-    if (refreshInterval) {
-        ctx.containers.timeout = refreshInterval
-    }
+    ctx.settings = settings
     containersLoop()
 }
 

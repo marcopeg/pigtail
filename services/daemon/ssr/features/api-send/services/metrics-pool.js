@@ -7,7 +7,7 @@ import { getRunningContainers } from './containers-pool'
 const ctx = {
     metrics: {
         timer: null,
-        timeout: 2500,
+        settings: {},
         isRunning: true,
     },
     records: [],
@@ -63,15 +63,13 @@ const metricsLoop = async () => {
     }
 
     // console.log(ctx.records)
-    ctx.metrics.timer = setTimeout(metricsLoop, ctx.metrics.timeout)
+    ctx.metrics.timer = setTimeout(metricsLoop, ctx.settings.timeout)
 }
 
 
-export const start = ({ refreshInterval } = {}) => {
+export const start = (settings) => {
     ctx.metrics.isRunning = true
-    if (refreshInterval) {
-        ctx.metrics.timeout = refreshInterval
-    }
+    ctx.settings = settings
     metricsLoop()
 }
 

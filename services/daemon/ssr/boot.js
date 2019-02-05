@@ -29,6 +29,29 @@ registerAction({
             endpoint: config.get('API_ENDPOINT'),
             token: config.get('API_TOKEN'),
         }
+
+        settings.containersPool = {
+            timeout: 1000,
+        }
+
+        settings.logsPool = {
+            timeout: 1000,
+        }
+        
+        settings.metricsPool = {
+            timeout: 1000,
+        }
+
+        settings.flusher = {
+            // batch amount of data that get flushed
+            metricsLimit: 10,
+            logsLimit: 10,
+
+            // timeouts
+            emptyTimeout: 2000,
+            errorTimeout: 5000,
+            timeout: 10,
+        }
     },
 })
 

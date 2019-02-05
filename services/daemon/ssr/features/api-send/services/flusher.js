@@ -7,7 +7,6 @@ import { sendMetrics } from '../lib/send-metrics'
 const ctx = {
     flusher: {
         timer: null,
-        timeout: 2500,
         isRunning: true,
     },
 }
@@ -52,23 +51,22 @@ const getMetricRecords = async (limit) => {
 const flusherLoop = async () => {
     if (!ctx.flusher.isRunning) return
 
-    const metricsLimit = 100
-    const logsLimit = 100
+    const { metricsLimit, logsLimit } = ctx.settings
     
     const containers = getContainersIdMap()
     const metrics = await getMetricRecords(metricsLimit)
     const logs = await getLogsRecords(logsLimit, containers)
 
     let timeout = (metrics.records.length === metricsLimit || logs.records.length === logsLimit)
-        ? 0
-        : ctx.flusher.timeout
+        ? ctx.settings.timeout
+        : ctx.settings.emptyTimeout
 
     try {
         await sendMetrics(metrics.records, logs.records)
         logs.commit()
         metrics.commit()
     } catch (err) {
-        timeout = ctx.flusher.timeout
+        timeout = ctx.settings.errorTimeout
         logError(`[flusher] ${err.message} - metrics: ${metrics.records.length}, logs: ${logs.records.length}`)
     }
 
@@ -76,12 +74,10 @@ const flusherLoop = async () => {
 }
 
 
-export const start = ({ refreshInterval } = {}) => {
+export const start = (settings) => {
     ctx.flusher.isRunning = true
-    if (refreshInterval) {
-        ctx.flusher.timeout = refreshInterval
-    }
-    flusherLoop()
+    ctx.settings = settings
+    flusherLoop(settings)
 }
 
 export const stop = () => {

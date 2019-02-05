@@ -5,7 +5,7 @@ import { LogTail } from '../lib/log-tail'
 const ctx = {
     logs: {
         timer: null,
-        timeout: 1000,
+        settings: {},
         isRunning: true,
     },
     pool: {},
@@ -37,15 +37,13 @@ const logsLoop = async () => {
     purgePool(ids)
     populatePool(ids)
 
-    ctx.logs.timer = setTimeout(logsLoop, ctx.logs.timeout)
+    ctx.logs.timer = setTimeout(logsLoop, ctx.settings.timeout)
 }
 
 
-export const start = ({ refreshInterval } = {}) => {
+export const start = (settings) => {
     ctx.logs.isRunning = true
-    if (refreshInterval) {
-        ctx.logs.timeout = refreshInterval
-    }
+    ctx.settings = settings
     logsLoop()
 }
 
