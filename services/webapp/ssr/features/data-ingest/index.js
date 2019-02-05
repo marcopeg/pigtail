@@ -1,8 +1,12 @@
 import { POSTGRES_BEFORE_START } from 'ssr/services/postgres/hooks'
 import { API_TOKEN_QUERIES } from 'ssr/features/api-token/hooks'
 import { FEATURE_NAME } from './hooks'
-import { trackMetrics } from './track-metrics.mutation'
+
 import * as Metric from './metric.model'
+import * as Log from './log.model'
+
+import { trackMetrics } from './track-metrics.mutation'
+import { trackLogs } from './track-logs.mutation'
 
 export const register = ({ registerAction }) => {
     registerAction({
@@ -10,6 +14,7 @@ export const register = ({ registerAction }) => {
         name: FEATURE_NAME,
         handler: ({ options }) => {
             options.models.push(Metric)
+            options.models.push(Log)
         },
     })
 
@@ -19,6 +24,7 @@ export const register = ({ registerAction }) => {
         trace: __filename,
         handler: ({ queries, mutations }) => {
             mutations.trackMetrics = trackMetrics()
+            mutations.trackLogs = trackLogs()
         },
     })
 }
