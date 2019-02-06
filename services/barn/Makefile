@@ -6,10 +6,17 @@
 # Running container's name
 organization?=marcopeg
 name?=rapha-barn
-version?=0.0.1
+version?=0.0.2
 
 # Docker image tag name
 tag?=${name}
+
+# Mish
+loglevel?=info
+host?=172.16.135.157
+port?=5050
+pgport?=5053
+token?=xxx
 
 # Build the project using cache
 image:
@@ -21,13 +28,14 @@ run:
 	docker run \
 		--rm \
 		--name ${name} \
-		-p 5050:8080 \
-		-e PG_HOST=172.16.135.157 \
-		-e PG_PORT=5555 \
+		-p ${port}:8080 \
+		-e PG_HOST=${host} \
+		-e PG_PORT=${pgport} \
 		-e PG_DATABASE=postgres \
 		-e PG_USERNAME=postgres \
 		-e PG_PASSWORD=postgres \
-		-e LOG_LEVEL=verbose \
+		-e LOG_LEVEL=${loglevel} \
+		-e API_DEFAULT_TOKEN=${token} \
 		${name}
 
 stop:

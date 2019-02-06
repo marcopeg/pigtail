@@ -1,3 +1,15 @@
+
+# DockerHUB Version Number
+version?=0.0.2
+
+#
+# Releases the production images to DockerHUB
+# It is important to run the proper version number!
+#
+release:
+	(cd services/barn && make release version=${version})
+	(cd services/reaper && make release version=${version})
+
 #
 # If you are about to go for a coffee run this command, it will force
 # a full rebuild of the Docker images that are needed to run this project

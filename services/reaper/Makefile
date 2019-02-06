@@ -6,10 +6,17 @@
 # Running container's name
 organization?=marcopeg
 name?=rapha-reaper
-version?=0.0.1
+version?=0.0.2
 
 # Docker image tag name
 tag?=${name}
+
+# Mish
+loglevel?=info
+host?=172.16.135.157
+port?=5050
+token?=xxx
+hname?=localhost
 
 # Build the project using cache
 image:
@@ -21,10 +28,10 @@ run:
 	docker run \
 		--rm \
 		--name ${name} \
-		-e HOST_NAME=reaper \
-		-e API_ENDPOINT=http://marcopeg.ngrok.io/api \
-		-e API_TOKEN=xxx \
-		-e LOG_LEVEL=error \
+		-e HOST_NAME=${hname} \
+		-e API_ENDPOINT=http://${host}:${port}/api \
+		-e API_TOKEN=${token} \
+		-e LOG_LEVEL=${loglevel} \
 		-v /var/lib/docker/containers:/var/lib/docker/containers \
         -v /var/run/docker.sock:/var/run/docker.sock \
 		${name}

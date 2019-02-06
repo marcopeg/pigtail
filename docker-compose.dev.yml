@@ -59,6 +59,7 @@ services:
             REACT_SSR: ${REACT_SSR:-no}
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED:-no}
             REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE:-no}
+            API_DEFAULT_TOKEN: ${API_TOKEN:-raphaDevToken}
         volumes:
             - ./services/barn/ssr:/usr/src/app/ssr
             - ./services/barn/src:/usr/src/app/src
@@ -101,7 +102,7 @@ services:
             BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-verbose}
             API_ENDPOINT: ${API_ENDPOINT:-http://api:8080/api}
-            API_TOKEN: ${API_TOKEN:-xxx}
+            API_TOKEN: ${API_TOKEN:-raphaDevToken}
             HOST_NAME: ${HOST_NAME:-localhost}
         volumes:
             - ./services/reaper/ssr:/usr/src/app/ssr

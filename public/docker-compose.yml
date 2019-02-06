@@ -43,7 +43,7 @@ services:
             PG_DATABASE: ${PG_DATABASE}
             PG_USERNAME: ${PG_USERNAME}
             PG_PASSWORD: ${PG_PASSWORD}
-            API_TOKEN: ${API_TOKEN}
+            API_DEFAULT_TOKEN: ${API_TOKEN}
 
     reaper:
         image: marcopeg/rapha-reaper:${VERSION:-latest}

@@ -54,6 +54,10 @@ registerAction({
                 cookieName: `${String(config.get('APP_ID'))}--locale`,
             },
         }
+
+        settings.apiToken = {
+            defaultToken: config.get('API_DEFAULT_TOKEN'),
+        }
     },
 })
 

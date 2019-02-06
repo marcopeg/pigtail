@@ -1,6 +1,11 @@
 import Sequelize from 'sequelize'
+import { logError } from 'ssr/services/logger'
 
 export const name = 'ApiToken'
+
+const settings = {
+    defaultToken: 'no', // populates a token record
+}
 
 const fields = {
     token: {
@@ -15,6 +20,26 @@ const options = {
     underscored: true,
     createdAt: 'created_at',
     updatedAt: false,
+    hooks: {
+        afterSync: ({ sequelize }) => {
+            if (settings.defaultToken === 'no') return
+
+            const query = [
+                `INSERT INTO api_tokens`,
+                `(token, created_at)`,
+                `VALUES ( :token, now() )`,
+                `ON CONFLICT DO NOTHING`,
+            ].join(' ')
+
+            const replacements = {
+                token: settings.defaultToken,
+            }
+
+            sequelize
+                .query(query, { replacements })
+                .catch(logError)
+        },
+    },
 }
 
 const validateToken = (conn, Model) => async token => {
@@ -38,4 +63,8 @@ export const init = (conn) => {
 
 export const reset = async (conn, Model) => {
     await conn.handler.query(`TRUNCATE ${options.tableName} RESTART IDENTITY CASCADE;`)
+}
+
+export const setDefaultToken = token => {
+    settings.defaultToken = token
 }
