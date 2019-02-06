@@ -29,10 +29,27 @@ services:
             - ${GRAFANA_PORT-5051}:3000
         environment:
             GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
+            GF_SERVER_ROOT_URL: http://grafana:3000/grafana/
         volumes:
             - ${HUMBLE_DATA}/grafana:/var/lib/grafana
 
-    api:
+    proxy:
+        # image: nginx:1.15.8
+        build:
+            context: ./services/proxy
+            dockerfile: Dockerfile
+        depends_on:
+            - barn
+            - grafana
+        networks:
+            - development
+        ports:
+            - ${PROXY_PORT:-8080}:80
+        # volumes:
+        #     - ./services/proxy/nginx.static.conf:/etc/nginx/nginx.conf:ro
+
+
+    barn:
         build:
             context: ./services/barn
             dockerfile: Dockerfile.dev
@@ -101,7 +118,7 @@ services:
             NODE_ENV: ${NODE_ENV:-development}
             BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-verbose}
-            API_ENDPOINT: ${API_ENDPOINT:-http://api:8080/api}
+            API_ENDPOINT: ${API_ENDPOINT:-http://barn:8080/api}
             API_TOKEN: ${API_TOKEN:-raphaDevToken}
             HOST_NAME: ${HOST_NAME:-localhost}
         volumes:
@@ -110,6 +127,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
+    
     
 networks:
     development:

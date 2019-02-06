@@ -2,9 +2,7 @@
 version?=0.0.2
 
 serverPort?=5050
-grafanaPort?=5051
 grafanaPassword?=grafana
-
 
 pgDatabase?=postgres
 pgUsername?=postgres
@@ -17,7 +15,6 @@ apiToken?=xxx
 barn:
 	VERSION=${version} \
 	SERVER_PORT=${serverPort} \
-	GRAFANA_PORT=${grafanaPort} \
 	GRAFANA_PASSWORD=${grafanaPassword} \
 	PG_DATABASE=${pgDatabase} \
 	PG_USERNAME=${pgUsername} \
@@ -25,12 +22,11 @@ barn:
 	HOST_NAME=${hostName} \
 	API_ENDPOINT=${apiEndpoint} \
 	API_TOKEN=${apiToken} \
-	docker-compose up -d postgres grafana barn
+	docker-compose up -d postgres grafana barn proxy
 
 reaper:
 	VERSION=${version} \
 	SERVER_PORT=${serverPort} \
-	GRAFANA_PORT=${grafanaPort} \
 	GRAFANA_PASSWORD=${grafanaPassword} \
 	PG_DATABASE=${pgDatabase} \
 	PG_USERNAME=${pgUsername} \
@@ -43,7 +39,6 @@ reaper:
 start: barn reaper
 	VERSION=${version} \
 	SERVER_PORT=${serverPort} \
-	GRAFANA_PORT=${grafanaPort} \
 	GRAFANA_PASSWORD=${grafanaPassword} \
 	PG_DATABASE=${pgDatabase} \
 	PG_USERNAME=${pgUsername} \
@@ -57,7 +52,6 @@ start: barn reaper
 down:
 	VERSION=${version} \
 	SERVER_PORT=${serverPort} \
-	GRAFANA_PORT=${grafanaPort} \
 	GRAFANA_PASSWORD=${grafanaPassword} \
 	PG_DATABASE=${pgDatabase} \
 	PG_USERNAME=${pgUsername} \

@@ -16,11 +16,12 @@ release:
 #
 prebuild:
 	HUMBLE_ENV=dev humble pull
-	HUMBLE_ENV=dev humble build --no-cache api
+	HUMBLE_ENV=dev humble build --no-cache barn
 	HUMBLE_ENV=dev humble build --no-cache app
 	HUMBLE_ENV=dev humble build --no-cache build
-	HUMBLE_ENV=dev humble build --no-cache daemon
-	HUMBLE_ENV=prod humble build --no-cache webapp
+	HUMBLE_ENV=dev humble build --no-cache reaper
+	HUMBLE_ENV=prod humble build --no-cache reaper
+	HUMBLE_ENV=prod humble build --no-cache barn
 
 db:
 	HUMBLE_ENV=dev humble up -d postgres
@@ -31,14 +32,14 @@ db:
 # Api App
 #
 
-api: db
-	HUMBLE_ENV=dev humble build api
-	HUMBLE_ENV=dev humble up -d api
-	HUMBLE_ENV=dev humble logs -f api
+barn: db
+	HUMBLE_ENV=dev humble build barn
+	HUMBLE_ENV=dev humble up -d barn
+	HUMBLE_ENV=dev humble logs -f barn
 
-unapi:
-	HUMBLE_ENV=dev humble stop api
-	HUMBLE_ENV=dev humble rm -f api
+unbarn:
+	HUMBLE_ENV=dev humble stop barn
+	HUMBLE_ENV=dev humble rm -f barn
 
 #
 # Client App
@@ -84,6 +85,15 @@ ungrafana:
 
 
 
+proxy:
+	HUMBLE_ENV=dev humble up -d proxy
+	HUMBLE_ENV=dev humble logs -f proxy
+
+unproxy:
+	HUMBLE_ENV=dev humble stop proxy
+	HUMBLE_ENV=dev humble rm -f proxy
+
+
 
 
 #
@@ -91,12 +101,13 @@ ungrafana:
 #
 
 dev: db
-	HUMBLE_ENV=dev humble build api
+	HUMBLE_ENV=dev humble build barn
 	HUMBLE_ENV=dev humble build reaper
-	HUMBLE_ENV=dev humble up -d api
+	HUMBLE_ENV=dev humble up -d barn
 	HUMBLE_ENV=dev humble up -d reaper
 	HUMBLE_ENV=dev humble up -d grafana
-	HUMBLE_ENV=dev humble logs -f api reaper
+	HUMBLE_ENV=dev humble up -d proxy
+	HUMBLE_ENV=dev humble logs -f barn reaper proxy
 
 undev:
 	HUMBLE_ENV=dev humble down
@@ -106,8 +117,11 @@ undev:
 # Production Commands
 #
 
-prod:
+build-prod:
 	HUMBLE_ENV=prod humble build --no-cache
+
+prod:
+	HUMBLE_ENV=prod humble build
 	HUMBLE_ENV=prod humble up -d
 	HUMBLE_ENV=prod humble logs -f
 
