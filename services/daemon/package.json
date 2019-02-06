@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node index",
     "start:dev": "./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js",
-    "build": "NODE_ENV=production BABEL_ENV=node ./node_modules/.bin/babel src --out-dir ./build-src --copy-files",
+    "build": "NODE_ENV=production BABEL_ENV=node ./node_modules/.bin/babel ssr --out-dir ./build-ssr",
     "lint": "./node_modules/.bin/eslint .",
     "clean": "rm -rf ./build-ssr"
   },

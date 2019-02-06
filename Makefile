@@ -95,7 +95,7 @@ undev:
 #
 
 prod:
-	HUMBLE_ENV=prod humble build webapp
+	HUMBLE_ENV=prod humble build --no-cache
 	HUMBLE_ENV=prod humble up -d
 	HUMBLE_ENV=prod humble logs -f
 

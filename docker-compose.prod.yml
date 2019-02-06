@@ -1,52 +1,66 @@
 version: '2.1'
 services:
 
-    postgres:
-        image: timescale/timescaledb:1.2.0-pg11
-        networks:
-            - production
-        environment:
-            POSTGRES_USER: ${PG_USERNAME}
-            POSTGRES_PASSWORD: ${PG_PASSWORD}
-            POSTGRES_DB: ${PG_DATABASE}
-        volumes:
-            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
-            - ${HUMBLE_BACKUP}:/backup
-        restart: always
-        healthcheck:
-            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
-            interval: 10s
-            timeout: 10s
-            retries: 10
-
-    webapp:
+    daemon:
         build:
-            context: ./services/webapp
+            context: ./services/daemon
             dockerfile: Dockerfile
-        depends_on:
-            - postgres
         networks:
             - production
-        ports:
-            - ${SERVER_PORT}:8080
         environment:
-            NODE_ENV: production
-            BABEL_ENV: ${BABEL_ENV}
-            LOG_LEVEL: ${LOG_LEVEL}
-            APP_ID: ${APP_ID}
-            PG_HOST: postgres
-            PG_PORT: 5432
-            PG_DATABASE: ${PG_DATABASE}
-            PG_USERNAME: ${PG_USERNAME}
-            PG_PASSWORD: ${PG_PASSWORD}
-            PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
-            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
-            SERVER_PORT: 8080
-            GRAPHQL_MOUNT_POINT: ${GRAPHQL_MOUNT_POINT}
-            REACT_SSR: ${REACT_SSR}
-            REACT_SSR_ENABLED: ${REACT_SSR_ENABLED}
-            REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE}
-        restart: always
+            HOST_NAME: localhost
+            API_ENDPOINT: http://marcopeg.ngrok.io/api
+            API_TOKEN: xxx
+        volumes:
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+
+    # postgres:
+    #     image: timescale/timescaledb:1.2.0-pg11
+    #     networks:
+    #         - production
+    #     environment:
+    #         POSTGRES_USER: ${PG_USERNAME}
+    #         POSTGRES_PASSWORD: ${PG_PASSWORD}
+    #         POSTGRES_DB: ${PG_DATABASE}
+    #     volumes:
+    #         - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+    #         - ${HUMBLE_BACKUP}:/backup
+    #     restart: always
+    #     healthcheck:
+    #         test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
+    #         interval: 10s
+    #         timeout: 10s
+    #         retries: 10
+
+    # webapp:
+    #     build:
+    #         context: ./services/webapp
+    #         dockerfile: Dockerfile
+    #     depends_on:
+    #         - postgres
+    #     networks:
+    #         - production
+    #     ports:
+    #         - ${SERVER_PORT}:8080
+    #     environment:
+    #         NODE_ENV: production
+    #         BABEL_ENV: ${BABEL_ENV}
+    #         LOG_LEVEL: ${LOG_LEVEL}
+    #         APP_ID: ${APP_ID}
+    #         PG_HOST: postgres
+    #         PG_PORT: 5432
+    #         PG_DATABASE: ${PG_DATABASE}
+    #         PG_USERNAME: ${PG_USERNAME}
+    #         PG_PASSWORD: ${PG_PASSWORD}
+    #         PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS}
+    #         PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY}
+    #         SERVER_PORT: 8080
+    #         GRAPHQL_MOUNT_POINT: ${GRAPHQL_MOUNT_POINT}
+    #         REACT_SSR: ${REACT_SSR}
+    #         REACT_SSR_ENABLED: ${REACT_SSR_ENABLED}
+    #         REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE}
+    #     restart: always
 
 networks:
     production:

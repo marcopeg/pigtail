@@ -22,7 +22,7 @@ services:
             retries: 10
 
     grafana:
-        image: grafana/grafana
+        image: grafana/grafana:5.4.3
         networks:
             - development
         ports:
