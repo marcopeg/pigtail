@@ -61,14 +61,14 @@ build:
 # Daemon App
 #
 
-daemon:
-	HUMBLE_ENV=dev humble build daemon
-	HUMBLE_ENV=dev humble up -d daemon
-	HUMBLE_ENV=dev humble logs -f daemon
+reaper:
+	HUMBLE_ENV=dev humble build reaper
+	HUMBLE_ENV=dev humble up -d reaper
+	HUMBLE_ENV=dev humble logs -f reaper
 
-undaemon:
-	HUMBLE_ENV=dev humble stop daemon
-	HUMBLE_ENV=dev humble rm -f daemon
+unreaper:
+	HUMBLE_ENV=dev humble stop reaper
+	HUMBLE_ENV=dev humble rm -f reaper
 
 #
 # Grafana App

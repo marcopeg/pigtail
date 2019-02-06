@@ -31,19 +31,26 @@ const options = {
 
 const bulkUpsert = (conn, Model) => records =>
     Promise.all(records.map(async record => {
+        const query = [
+            `INSERT INTO containers`,
+            `( host, cid, name, meta, created_at, updated_at ) VALUES`,
+            `( :host, :cid, :name, :meta, NOW(), NOW() )`,
+            `ON CONFLICT (host, cid) DO UPDATE SET`,
+            `meta = excluded.meta,`,
+            'updated_at = NOW()',
+        ].join(' ')
+
+        const replacements = {
+            host: record.host,
+            cid: record.cid,
+            name: record.name,
+            meta: '{}',
+        }
+
         try {
-            await Model.create(record)
+            await conn.query(query, { replacements })
         } catch (err) {
-            try {
-                Model.update(record, {
-                    where: {
-                        host: record.host,
-                        cid: record.cid,
-                    },
-                })
-            } catch (err) {
-                logError(err)
-            }
+            logError(err)
         }
     }))
 
