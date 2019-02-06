@@ -44,7 +44,7 @@ const bulkUpsert = (conn, Model) => records =>
             host: record.host,
             cid: record.cid,
             name: record.name,
-            meta: '{}',
+            meta: JSON.stringify(record.meta),
         }
 
         try {

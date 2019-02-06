@@ -6,7 +6,7 @@
 # Running container's name
 organization?=marcopeg
 name?=rapha-barn
-version?=0.0.3
+version?=0.0.4
 
 # Docker image tag name
 tag?=${name}
