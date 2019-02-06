@@ -4,14 +4,15 @@
 
 
 # Running container's name
-name?=cra-ssr
+name?=rapha-collector
+version?=0.0.1
 
 # Docker image tag name
 tag?=${name}
 
 # Build the project using cache
 image:
-	docker build -t ${tag} .
+	docker build -t ${tag} -t ${tag}:${version} .
 	
 # Spins up a container from the latest available image
 # this is useful to test locally
@@ -19,7 +20,13 @@ run:
 	docker run \
 		--rm \
 		--name ${name} \
-		-p 8080:8080 \
+		-p 5050:8080 \
+		-e PG_HOST=172.16.135.157 \
+		-e PG_PORT=5555 \
+		-e PG_DATABASE=postgres \
+		-e PG_USERNAME=postgres \
+		-e PG_PASSWORD=postgres \
+		-e LOG_LEVEL=verbose \
 		${name}
 
 stop:

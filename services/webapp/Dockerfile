@@ -83,6 +83,28 @@ COPY --from=builder /usr/src/app-build/build-ssr ./build-ssr
 ADD package.json /usr/src/app
 ADD index.js /usr/src/app
 
+
+
+
+
+#
+# Startup Info
+# ==========================================
+#
+
 # Default environment configuration:
-# EXPOSE 8080
-CMD node index.js
+ENV APP_ID rapha-collector
+ENV NODE_ENV production
+ENV BABEL_ENV node
+ENV LOG_LEVEL error
+ENV SERVER_PORT 8080
+ENV GRAPHQL_MOUNT_POINT /api
+ENV REACT_SSR no
+ENV REACT_SSR_ENABLED no
+ENV REACT_SSR_USE_CACHE no
+ENV PG_PORT 5432
+ENV PG_DATABASE rapha
+ENV PG_MAX_CONN_ATTEMPTS 10
+ENV PG_CONN_ATTEMPTS_DELAY 2500
+
+ENTRYPOINT ["node", "index.js"]
