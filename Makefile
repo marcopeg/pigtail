@@ -1,6 +1,6 @@
 
 # DockerHUB Version Number
-version?=0.0.2
+version?=0.0.3
 
 #
 # Releases the production images to DockerHUB
@@ -9,6 +9,7 @@ version?=0.0.2
 release:
 	(cd services/barn && make release version=${version})
 	(cd services/reaper && make release version=${version})
+	(cd services/proxy && make release version=${version})
 
 #
 # If you are about to go for a coffee run this command, it will force
