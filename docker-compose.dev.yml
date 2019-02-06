@@ -6,7 +6,7 @@ services:
         networks:
             - development
         ports:
-            - ${PG_PORT-5432}:5432
+            - ${PG_PORT-5053}:5432
         environment:
             POSTGRES_USER: ${PG_USERNAME:-postgres}
             POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
@@ -26,7 +26,7 @@ services:
         networks:
             - development
         ports:
-            - ${GRAFANA_PORT-3000}:3000
+            - ${GRAFANA_PORT-5051}:3000
         environment:
             GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
         volumes:
@@ -34,68 +34,66 @@ services:
 
     api:
         build:
-            context: ./services/webapp
+            context: ./services/barn
             dockerfile: Dockerfile.dev
         depends_on:
             - postgres
         networks:
             - development
         ports:
-            - ${SERVER_PORT:-8080}:8080
+            - ${SERVER_PORT:-5050}:8080
         environment:
-            APP_ID: ${APP_ID}
+            APP_ID: rapha-barn
             NODE_ENV: ${NODE_ENV:-development}
             BABEL_ENV: ${BABEL_ENV:-node}
-            LOG_LEVEL: ${LOG_LEVEL:-verbose}
+            LOG_LEVEL: ${LOG_LEVEL:-info}
             PG_HOST: postgres
             PG_PORT: 5432
             PG_DATABASE: ${PG_DATABASE:-postgres}
             PG_USERNAME: ${PG_USERNAME:-postgres}
             PG_PASSWORD: ${PG_PASSWORD:-postgres}
             PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS:-10}
-            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY:-500}
+            PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY:-2500}
             SERVER_PORT: 8080
             GRAPHQL_MOUNT_POINT: ${GRAPHQL_MOUNT_POINT:-/api}
-            REACT_SSR: ${REACT_SSR:-yes}
+            REACT_SSR: ${REACT_SSR:-no}
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED:-no}
             REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE:-no}
         volumes:
-            - ./services/webapp/ssr:/usr/src/app/ssr
-            - ./services/webapp/src:/usr/src/app/src
-            - ./services/webapp/build:/usr/src/app/build
+            - ./services/barn/ssr:/usr/src/app/ssr
+            - ./services/barn/src:/usr/src/app/src
+            - ./services/barn/build:/usr/src/app/build
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev:api" ]
 
     app:
         build:
-            context: ./services/webapp
+            context: ./services/barn
             dockerfile: Dockerfile.dev
         networks:
             - development
         ports:
-            - ${FRONTEND_PORT:-3000}:3000
+            - ${FRONTEND_PORT:-5052}:3000
         volumes:
-            - ./services/webapp/src:/usr/src/app/src
-            - ./services/webapp/build:/usr/src/app/build
+            - ./services/barn/src:/usr/src/app/src
+            - ./services/barn/build:/usr/src/app/build
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start" ]
 
     build:
         build:
-            context: ./services/webapp
+            context: ./services/barn
             dockerfile: Dockerfile.dev
         volumes:
-            - ./services/webapp/src:/usr/src/app/src
-            - ./services/webapp/build:/usr/src/app/build
+            - ./services/barn/src:/usr/src/app/src
+            - ./services/barn/build:/usr/src/app/build
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "build" ]
 
-    daemon:
+    reaper:
         build:
-            context: ./services/daemon
+            context: ./services/reaper
             dockerfile: Dockerfile.dev
-        # depends_on:
-        #     - postgres
         networks:
             - development
         environment:
@@ -106,7 +104,7 @@ services:
             API_TOKEN: ${API_TOKEN:-xxx}
             HOST_NAME: ${HOST_NAME:-localhost}
         volumes:
-            - ./services/daemon/ssr:/usr/src/app/ssr
+            - ./services/reaper/ssr:/usr/src/app/ssr
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
         working_dir: /usr/src/app

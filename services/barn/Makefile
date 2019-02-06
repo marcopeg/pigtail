@@ -4,7 +4,8 @@
 
 
 # Running container's name
-name?=rapha-collector
+organization?=marcopeg
+name?=rapha-barn
 version?=0.0.1
 
 # Docker image tag name
@@ -52,3 +53,11 @@ ssh:
 		-it \
 		${name} \
 		/bin/sh
+
+publish:
+	docker tag ${tag}:${version} ${organization}/${name}:${version}
+	docker tag ${tag}:${version} ${organization}/${name}:latest
+	docker push ${organization}/${name}:${version}
+	docker push ${organization}/${name}:latest
+
+release: image publish

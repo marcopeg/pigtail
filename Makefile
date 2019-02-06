@@ -80,11 +80,11 @@ ungrafana:
 
 dev: db
 	HUMBLE_ENV=dev humble build api
-	HUMBLE_ENV=dev humble build daemon
+	HUMBLE_ENV=dev humble build reaper
 	HUMBLE_ENV=dev humble up -d api
-	HUMBLE_ENV=dev humble up -d daemon
+	HUMBLE_ENV=dev humble up -d reaper
 	HUMBLE_ENV=dev humble up -d grafana
-	HUMBLE_ENV=dev humble logs -f api daemon
+	HUMBLE_ENV=dev humble logs -f api reaper
 
 undev:
 	HUMBLE_ENV=dev humble down
