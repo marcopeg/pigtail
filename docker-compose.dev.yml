@@ -105,13 +105,14 @@ services:
             API_ENDPOINT: ${API_ENDPOINT:-http://barn:8080/api}
             API_TOKEN: ${API_TOKEN:-raphaDevToken}
             HOST_NAME: ${HOST_NAME:-localhost}
+            EXTENSIONS: ${REAPER_EXTENSIONS:-}
         volumes:
             - ./services/reaper/ssr:/usr/src/app/ssr
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./extensions/reaper:/var/lib/rapha/reaper/extensions
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
-    
     
 networks:
     development:

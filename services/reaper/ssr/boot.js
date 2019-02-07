@@ -1,11 +1,15 @@
+import path from 'path'
+import glob from 'glob'
 import * as config from '@marcopeg/utils/lib/config'
 import {
     registerAction,
+    createHook,
     createHookApp,
     logBoot,
     SETTINGS,
     FINISH,
 } from '@marcopeg/hooks'
+import { pathToFileURL } from 'url';
 
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
@@ -21,10 +25,26 @@ const features = [
     require('./features/api-send'),
 ]
 
+// development extensions from a local folder
+// @NOTE: extensions should be plain NodeJS compatible, if you want to use
+// weird ES6 syntax you have to transpile your extension yourself
+const devExtensions = process.env.NODE_ENV === 'development'
+    ? glob
+        .sync(path.resolve(__dirname, 'extensions', 'dev', '[!_]*', 'index.js'))
+        .map(file => require(path.resolve(file)))
+    : []
+
+// community extensions from a mounted volume
+// @NOTE: extensions should be plain NodeJS compatible, if you want to use
+// weird ES6 syntax you have to transpile your extension yourself
+const communityExtensions = glob
+    .sync(path.resolve('/', 'var', 'lib', 'rapha', 'reaper', 'extensions', '[!_]*', 'index.js'))
+    .map(file => require(path.resolve(file)))
+
 registerAction({
     hook: SETTINGS,
     name: '♦ boot',
-    handler: ({ settings }) => {
+    handler: async ({ settings }) => {
         settings.api = {
             endpoint: config.get('API_ENDPOINT'),
             token: config.get('API_TOKEN'),
@@ -49,6 +69,24 @@ registerAction({
             emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 2500),
             errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
             interval: config.get('FLUSHER_INTERVAL', 1),
+        }
+
+        // core extensions, will be filtered by environment variable
+        const enabledExtensions = config.get('EXTENSIONS', '---')
+        const coreExtensions = glob
+            .sync(path.resolve(__dirname, 'extensions', 'core', `@(${enabledExtensions})`, 'index.js'))
+            .map(file => require(path.resolve(file)))
+
+        // register extensions
+        const extensions = [ ...devExtensions, ...coreExtensions, ...communityExtensions ]
+        for (const extension of extensions) {
+            if (extension.register) {
+                await extension.register({
+                    registerAction,
+                    createHook,
+                    settings: { ...settings },
+                })
+            }
         }
     },
 })
