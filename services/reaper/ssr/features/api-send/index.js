@@ -24,20 +24,11 @@ export const register = ({ registerAction, settings }) => {
         hook: START_SERVICE,
         name: FEATURE_NAME,
         trace: __filename,
-        handler: async ({ containersStats, containersLogs, flusher, buffer }) => {
+        handler: async ({ containersMetrics, containersLogs, flusher, buffer }) => {
             bufferService.start(buffer)
-            containersMetricsService.start(containersStats)
+            containersMetricsService.start(containersMetrics)
             containersLogsService.start(containersLogs)
             flusherService.start(flusher)
-
-            new Daemon({
-                name: 'host metrics',
-                interval: 2000,
-                handler: () => {
-                    console.log('*** foo')
-                    return 10000
-                },
-            })
         },
     })
 }

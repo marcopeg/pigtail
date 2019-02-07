@@ -1,11 +1,17 @@
+import { logError } from 'ssr/services/logger'
 
 export class Daemon {
     constructor (settings) {
         this.isRunning = null
         this.timer = null
 
+        this.loops = 0
+        this.errors = 0
+        this.lapsed = 0
+
         this.name = settings.name
         this.interval = settings.interval
+        this.intervalOnError = settings.intervalOnError
         this.handler = settings.handler
 
         this.start()
@@ -13,8 +19,18 @@ export class Daemon {
 
     async loop () {
         const start = new Date()
-        console.log('DAEMON LOOP')
-        const interval = (await this.handler()) || this.interval
+
+        // run the logic and gather metrics
+        let interval
+        try {
+            interval = (await this.handler()) || this.interval
+            this.loops += 1
+        } catch (err) {
+            interval = this.intervalOnError || this.interval
+            this.errors += 1
+            logError(`[${this.name}] ${err.message}`)
+            logDebug(err)
+        }
         
         // calculate next execution timeout based on execution time
         const lapsed = new Date() - start
@@ -22,6 +38,7 @@ export class Daemon {
             ? interval - lapsed
             : 0
 
+        this.lapsed += lapsed
         this.timer = setTimeout(() => this.loop(), schedule)
     }
 
@@ -35,4 +52,11 @@ export class Daemon {
         this.isRunning = false
     }
 
+    getStats () {
+        return {
+            loops: this.loops,
+            lapsed: this.lapsed,
+            errors: this.errors,
+        }
+    }
 }

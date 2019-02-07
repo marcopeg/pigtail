@@ -48,7 +48,7 @@ registerAction({
             token: config.get('API_TOKEN'),
         }
 
-        settings.containersStats = {
+        settings.containersMetrics = {
             interval: config.get('CONTAINERS_STATS_INTERVAL', 5000),
         }
 
@@ -57,16 +57,14 @@ registerAction({
         }
 
         settings.flusher = {
-            hostName: config.get('HOST_NAME'),
-
             // batch amount of data that get flushed
             maxMetricsBatch: config.get('FLUSHER_MAX_METRICS_BATCH', 100),
             maxLogsBatch: config.get('FLUSHER_MAX_LOGS_BATCH', 100),
 
             // timeouts
             interval: config.get('FLUSHER_INTERVAL', 1),
-            emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 5000),
-            errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
+            intervalOnEmpty: config.get('FLUSHER_EMPTY_INTERVAL', 5000),
+            intervalOnError: config.get('FLUSHER_ERROR_INTERVAL', 5000),
         }
 
         settings.buffer = {

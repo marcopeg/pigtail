@@ -1,17 +1,14 @@
 import si from 'systeminformation'
 import { createHook } from '@marcopeg/hooks'
 import getContainerId from 'docker-container-id'
-import { logError, logVerbose } from 'ssr/services/logger'
+import { logError, logDebug } from 'ssr/services/logger'
 import { CONTAINER_METRICS, DOCKER_METRICS } from '../hooks'
+import { Daemon } from '../lib/daemon'
 import { pushMetric } from './buffer'
 
 const ctx = {
+    daemon: null,
     currentCid: null,
-    status: {
-        timer: null,
-        settings: {},
-        isRunning: true,
-    },
     containers: [],
     containersMap: {},
 }
@@ -61,10 +58,7 @@ const fetchStats = async () =>
             return record
         })
 
-const containersLoop = async () => {
-    const start = new Date()
-    if (!ctx.status.isRunning) return
-
+const handler = async () => {
     const ctime = new Date()
     const push = (metric, value) => {
         const record = {
@@ -90,26 +84,22 @@ const containersLoop = async () => {
             } 
         })
     } catch (err) {
-        logError(err.message)
+        logError(`[containers-metrics] ${err.message}`)
+        logDebug(err)
     }
-
-    // calculate next execution timeout based on execution time
-    const lapsed = new Date() - start
-    const interval = ctx.settings.interval > lapsed
-        ? ctx.settings.interval - lapsed
-        : 0
-    
-    ctx.status.timer = setTimeout(containersLoop, interval)
 }
 
-export const start = async (settings) => {
-    ctx.settings = settings
+export const start = async ({ interval }) => {
     ctx.currentCid = await getContainerId()
-    ctx.status.isRunning = true
-    containersLoop()
+    ctx.daemon = new Daemon({
+        name: 'containers-metrics',
+        interval,
+        handler,
+    })
 }
 
 export const stop = () => {
-    ctx.status.isRunning = false
-    clearTimeout(ctx.status.timer)
+    if (ctx.daemon) {
+        ctx.daemon.stop()
+    }
 }
