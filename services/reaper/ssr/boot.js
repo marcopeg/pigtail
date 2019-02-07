@@ -49,11 +49,17 @@ registerAction({
         }
 
         settings.containersMetrics = {
-            interval: config.get('CONTAINERS_STATS_INTERVAL', 5000),
+            interval: config.get('CONTAINERS_METRICS_INTERVAL', 5000),
         }
 
         settings.containersLogs = {
             interval: config.get('CONTAINERS_LOGS_INTERVAL', 5000),
+        }
+
+        settings.daemons = {}
+
+        settings.buffer = {
+            hostName: config.get('HOST_NAME'),
         }
 
         settings.flusher = {
@@ -67,12 +73,8 @@ registerAction({
             intervalOnError: config.get('FLUSHER_ERROR_INTERVAL', 5000),
         }
 
-        settings.buffer = {
-            hostName: config.get('HOST_NAME'),
-        }
-
         // core extensions, will be filtered by environment variable
-        const enabledExtensions = config.get('EXTENSIONS', '---')
+        const enabledExtensions = config.get('EXTENSIONS', '---') || 'preset-default'
         const coreExtensions = glob
             .sync(path.resolve(__dirname, 'extensions', 'core', `@(${enabledExtensions})`, 'index.js'))
 

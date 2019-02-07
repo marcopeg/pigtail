@@ -1,9 +1,10 @@
-import { logError } from 'ssr/services/logger'
+import { logError, logDebug } from 'ssr/services/logger'
 
 export class Daemon {
     constructor (settings) {
         this.isRunning = null
         this.timer = null
+        this.ctx = settings.context || {}
 
         this.loops = 0
         this.errors = 0
@@ -23,7 +24,7 @@ export class Daemon {
         // run the logic and gather metrics
         let interval
         try {
-            interval = (await this.handler()) || this.interval
+            interval = (await this.handler(this.ctx)) || this.interval
             this.loops += 1
         } catch (err) {
             interval = this.intervalOnError || this.interval
