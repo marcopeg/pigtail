@@ -17,7 +17,8 @@ export const register = ({ registerAction }) => {
     // ";;/;;/mnt/data;;"
     //
     // to list all disks, simply write "all"
-    const filterRule = config.get('METRIC_HOST_DISK_FILTER', ';/;')
+    const filterRule = config.get('METRIC_HOST_DISK_FILTER', ';;/;;')
+    console.log(filterRule)
 
     const filterHandler = filterRule === 'all'
         ? () => true

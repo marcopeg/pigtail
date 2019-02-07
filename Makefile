@@ -1,6 +1,6 @@
 
 # DockerHUB Version Number
-version?=0.0.5
+version?=0.0.6
 
 #
 # Releases the production images to DockerHUB

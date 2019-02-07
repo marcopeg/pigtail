@@ -13,7 +13,8 @@ const parseLine = (line) => {
 }
 
 export const df = () => new Promise((resolve, reject) => {
-    exec('df -Pk', {}, (err, stdout, stderr) => {
+    const cmd = 'df -Pk'
+    exec(cmd, {}, (err, stdout, stderr) => {
         if (err) {
             reject(new Error(err))
             return

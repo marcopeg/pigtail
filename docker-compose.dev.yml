@@ -108,11 +108,13 @@ services:
             API_TOKEN: ${API_TOKEN:-raphaDevToken}
             HOST_NAME: ${HOST_NAME:-localhost}
             EXTENSIONS: ${REAPER_EXTENSIONS:-}
+            METRIC_HOST_DISK_FILTER: ;;/;;
         volumes:
-            - ./services/reaper/ssr:/usr/src/app/ssr
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./services/reaper/ssr:/usr/src/app/ssr
             - ./extensions/reaper:/var/lib/rapha/extensions
+            - ./data/pg:/var/lib/rapha/fsize/rapha-pg
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
     
