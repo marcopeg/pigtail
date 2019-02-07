@@ -25,7 +25,7 @@ export const register = ({ registerAction }) => {
 
     const daemonSettings = {
         name,
-        interval: config.get('METRIC_HOST_DISK_INTERVAL', 2500),
+        interval: config.get('METRIC_HOST_DISK_INTERVAL', 5000),
         handler: daemonHandler,
         context: { filterHandler }
     }

@@ -10,7 +10,7 @@ export const daemonHandler = async (ctx, actions) =>
 export const register = ({ registerAction }) => {
     const daemonSettings = {
         name,
-        interval: config.get('METRIC_HOST_MEM_INTERVAL', 2500),
+        interval: config.get('METRIC_HOST_MEM_INTERVAL', 5000),
         handler: daemonHandler,
     }
 
