@@ -5,7 +5,9 @@ import { sendMetrics } from './lib/send-metrics'
 
 import * as containersMetricsService from './services/containers-metrics'
 import * as containersLogsService from './services/containers-logs'
+import * as daemonsService from './services/daemons'
 import * as flusherService from './services/flusher'
+import * as bufferService from './services/buffer'
 
 export const register = ({ registerAction, settings }) => {
     registerAction({
@@ -21,10 +23,13 @@ export const register = ({ registerAction, settings }) => {
         hook: START_SERVICE,
         name: FEATURE_NAME,
         trace: __filename,
-        handler: async ({ containersStats, containersLogs, flusher }) => {
-            containersMetricsService.start(containersStats)
-            containersLogsService.start(containersLogs)
-            flusherService.start(flusher)
+        handler: async (settings) => {
+            bufferService.start(settings.buffer)
+            daemonsService.start(settings.daemons)
+            flusherService.start(settings.flusher)
+            
+            containersMetricsService.start(settings.containersMetrics)
+            containersLogsService.start(settings.containersLogs)
         },
     })
 }

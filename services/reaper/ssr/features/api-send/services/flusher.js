@@ -1,84 +1,46 @@
-import { logError, logInfo } from 'ssr/services/logger'
-import { flushContainersLogs } from './containers-logs'
-import { flushContainersMetrics } from './containers-metrics'
+import { logError, logDebug } from 'ssr/services/logger'
+import { Daemon } from '../lib/daemon'
 import { sendMetrics } from '../lib/send-metrics'
+import { flushMetrics, flushLogs } from './buffer'
 
 const ctx = {
-    flusher: {
-        timer: null,
-        isRunning: true,
-    },
+    settings: null,
+    daemon: null,
 }
 
-const getLogsRecords = async (limit) => {
-    const logs = flushContainersLogs(limit)
-    const records = logs.records
-        .map(record => ({
-            host: ctx.settings.hostName,
-            container: record.container.name,
-            message: record.log.log,
-            meta: {
-                stream: record.log.stream,
-                cid: record.cid,
-            },
-        }))
-
-    return {
-        ...logs,
-        records,
-    }
-}
-
-const getMetricRecords = async (limit) => {
-    const stats = flushContainersMetrics(limit)
-    const records = stats.records
-        .map(record => ({
-            ...record,
-            host: ctx.settings.hostName,
-        }))
-    
-    return {
-        ...stats,
-        records,
-    }
-}
-
-const flusherLoop = async () => {
-    const start = new Date()
-    if (!ctx.flusher.isRunning) return
-
+const handler = async () => {
     const { maxMetricsBatch, maxLogsBatch } = ctx.settings
-    const metrics = await getMetricRecords(maxMetricsBatch)
-    const logs = await getLogsRecords(maxLogsBatch)
+    const metrics = await flushMetrics(maxMetricsBatch)
+    const logs = await flushLogs(maxLogsBatch)
 
     let interval = (metrics.records.length === maxMetricsBatch || logs.records.length === maxLogsBatch)
         ? ctx.settings.interval
-        : ctx.settings.emptyInterval
+        : ctx.settings.intervalOnEmpty
 
     try {
         await sendMetrics(metrics.records, logs.records)
         metrics.commit()
         logs.commit()
     } catch (err) {
-        interval = ctx.settings.errorInterval
+        interval = ctx.settings.intervalOnError
         logError(`[flusher] ${err.message} - metrics: ${metrics.records.length}, logs: ${logs.records.length}`)
+        logDebug(err)
     }
 
-    // calculate next execution timeout based on execution time
-    const lapsed = new Date() - start
-    interval = interval > lapsed ? interval - lapsed : 0
-
-    ctx.flusher.timer = setTimeout(flusherLoop, interval)
+    return interval
 }
 
-
-export const start = (settings) => {
-    ctx.flusher.isRunning = true
+export const start = ({ interval, ...settings }) => {
     ctx.settings = settings
-    flusherLoop(settings)
+    ctx.daemon = new Daemon({
+        name: 'flusher',
+        interval,
+        handler,
+    })
 }
 
 export const stop = () => {
-    ctx.flusher.isRunning = false
-    clearTimeout(ctx.flusher.timer)
+    if (ctx.daemon) {
+        ctx.daemon.stop()
+    }
 }

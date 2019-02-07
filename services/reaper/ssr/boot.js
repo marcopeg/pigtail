@@ -48,29 +48,33 @@ registerAction({
             token: config.get('API_TOKEN'),
         }
 
-        settings.containersStats = {
-            interval: config.get('CONTAINERS_STATS_INTERVAL', 1000),
+        settings.containersMetrics = {
+            interval: config.get('CONTAINERS_METRICS_INTERVAL', 5000),
         }
 
         settings.containersLogs = {
-            interval: config.get('CONTAINERS_LOGS_INTERVAL', 1000),
+            interval: config.get('CONTAINERS_LOGS_INTERVAL', 5000),
+        }
+
+        settings.daemons = {}
+
+        settings.buffer = {
+            hostName: config.get('HOST_NAME'),
         }
 
         settings.flusher = {
-            hostName: config.get('HOST_NAME'),
-
             // batch amount of data that get flushed
             maxMetricsBatch: config.get('FLUSHER_MAX_METRICS_BATCH', 100),
             maxLogsBatch: config.get('FLUSHER_MAX_LOGS_BATCH', 100),
 
             // timeouts
-            emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 2500),
-            errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
             interval: config.get('FLUSHER_INTERVAL', 1),
+            intervalOnEmpty: config.get('FLUSHER_EMPTY_INTERVAL', 5000),
+            intervalOnError: config.get('FLUSHER_ERROR_INTERVAL', 5000),
         }
 
         // core extensions, will be filtered by environment variable
-        const enabledExtensions = config.get('EXTENSIONS', '---')
+        const enabledExtensions = config.get('EXTENSIONS', '---') || 'preset-default'
         const coreExtensions = glob
             .sync(path.resolve(__dirname, 'extensions', 'core', `@(${enabledExtensions})`, 'index.js'))
 
