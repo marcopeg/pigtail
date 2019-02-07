@@ -3,6 +3,7 @@ import { createHook } from '@marcopeg/hooks'
 import getContainerId from 'docker-container-id'
 import { logError, logVerbose } from 'ssr/services/logger'
 import { CONTAINER_METRICS, DOCKER_METRICS } from '../hooks'
+import { pushMetric } from './buffer'
 
 const ctx = {
     currentCid: null,
@@ -13,7 +14,6 @@ const ctx = {
     },
     containers: [],
     containersMap: {},
-    records: [],
 }
 
 export const getContainers = () => ctx.containers
@@ -66,12 +66,14 @@ const containersLoop = async () => {
     if (!ctx.status.isRunning) return
 
     const ctime = new Date()
-    const push = (metric, value) =>
-        ctx.records.push({
+    const push = (metric, value) => {
+        const record = {
             metric,
             value,
             ctime,
-        })
+        }
+        pushMetric(record)
+    }
 
     try {
         ctx.containers = await fetchStats()
@@ -110,20 +112,4 @@ export const start = async (settings) => {
 export const stop = () => {
     ctx.status.isRunning = false
     clearTimeout(ctx.status.timer)
-}
-
-// returns a list of records to flush, plus a "commit callback" to be
-// invoked when the operation is completed to actually remove the
-// flushed records from memory
-export const flushContainersMetrics = (limit = null) => {
-    const flushLen = (limit !== null && limit < ctx.records.length)
-        ? limit
-        : ctx.records.length
-
-    logVerbose(`[containersMetrics] send ${flushLen} of ${ctx.records.length}`)
-
-    return {
-        records: ctx.records.slice(0, flushLen),
-        commit: () => ctx.records.splice(0, flushLen),
-    }
 }

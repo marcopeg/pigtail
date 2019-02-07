@@ -49,11 +49,11 @@ registerAction({
         }
 
         settings.containersStats = {
-            interval: config.get('CONTAINERS_STATS_INTERVAL', 1000),
+            interval: config.get('CONTAINERS_STATS_INTERVAL', 5000),
         }
 
         settings.containersLogs = {
-            interval: config.get('CONTAINERS_LOGS_INTERVAL', 1000),
+            interval: config.get('CONTAINERS_LOGS_INTERVAL', 5000),
         }
 
         settings.flusher = {
@@ -64,9 +64,13 @@ registerAction({
             maxLogsBatch: config.get('FLUSHER_MAX_LOGS_BATCH', 100),
 
             // timeouts
-            emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 2500),
-            errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
             interval: config.get('FLUSHER_INTERVAL', 1),
+            emptyInterval: config.get('FLUSHER_EMPTY_INTERVAL', 5000),
+            errorInterval: config.get('FLUSHER_ERROR_INTERVAL', 5000),
+        }
+
+        settings.buffer = {
+            hostName: config.get('HOST_NAME'),
         }
 
         // core extensions, will be filtered by environment variable
