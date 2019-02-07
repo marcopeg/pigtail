@@ -61,10 +61,12 @@ services:
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED:-no}
             REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE:-no}
             API_DEFAULT_TOKEN: ${API_TOKEN:-raphaDevToken}
+            EXTENSIONS: ${BARN_EXTENSIONS:-}
         volumes:
             - ./services/barn/ssr:/usr/src/app/ssr
             - ./services/barn/src:/usr/src/app/src
             - ./services/barn/build:/usr/src/app/build
+            - ./extensions/barn:/var/lib/rapha/extensions
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev:api" ]
 
@@ -110,7 +112,7 @@ services:
             - ./services/reaper/ssr:/usr/src/app/ssr
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
-            - ./extensions/reaper:/var/lib/rapha/reaper/extensions
+            - ./extensions/reaper:/var/lib/rapha/extensions
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
     

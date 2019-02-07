@@ -1,11 +1,15 @@
+import path from 'path'
+import glob from 'glob'
 import * as config from '@marcopeg/utils/lib/config'
 import {
     registerAction,
+    createHook,
     createHookApp,
     logBoot,
     SETTINGS,
     FINISH,
 } from '@marcopeg/hooks'
+import { logInfo } from 'ssr/services/logger'
 
 // require('es6-promise').polyfill()
 // require('isomorphic-fetch')
@@ -26,10 +30,24 @@ const features = [
     require('./features/api-token'),
 ]
 
+// development extensions from a local folder
+// @NOTE: extensions should be plain NodeJS compatible, if you want to use
+// weird ES6 syntax you have to transpile your extension yourself
+const devExtensions = process.env.NODE_ENV === 'development'
+    ? glob
+        .sync(path.resolve(__dirname, 'extensions', 'dev', '[!_]*', 'index.js'))
+    : []
+
+// community extensions from a mounted volume
+// @NOTE: extensions should be plain NodeJS compatible, if you want to use
+// weird ES6 syntax you have to transpile your extension yourself
+const communityExtensions = glob
+    .sync(path.resolve('/', 'var', 'lib', 'rapha', 'extensions', '[!_]*', 'index.js'))
+
 registerAction({
     hook: SETTINGS,
     name: '♦ boot',
-    handler: ({ settings }) => {
+    handler: async ({ settings }) => {
         // list one or more connections
         settings.postgres = [{
             connectionName: 'default',
@@ -57,6 +75,25 @@ registerAction({
 
         settings.apiToken = {
             defaultToken: config.get('API_DEFAULT_TOKEN'),
+        }
+
+        // core extensions, will be filtered by environment variable
+        const enabledExtensions = config.get('EXTENSIONS', '---')
+        const coreExtensions = glob
+            .sync(path.resolve(__dirname, 'extensions', 'core', `@(${enabledExtensions})`, 'index.js'))
+
+        // register extensions
+        const extensions = [ ...devExtensions, ...coreExtensions, ...communityExtensions ]
+        for (const extensionPath of extensions) {
+            const extension = require(extensionPath)
+            if (extension.register) {
+                logInfo(`activate extension: ${extensionPath}`)
+                await extension.register({
+                    registerAction,
+                    createHook,
+                    settings: { ...settings },
+                })
+            }
         }
     },
 })

@@ -9,7 +9,7 @@ import {
     SETTINGS,
     FINISH,
 } from '@marcopeg/hooks'
-import { pathToFileURL } from 'url';
+import { logInfo } from 'ssr/services/logger'
 
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
@@ -31,15 +31,13 @@ const features = [
 const devExtensions = process.env.NODE_ENV === 'development'
     ? glob
         .sync(path.resolve(__dirname, 'extensions', 'dev', '[!_]*', 'index.js'))
-        .map(file => require(path.resolve(file)))
     : []
 
 // community extensions from a mounted volume
 // @NOTE: extensions should be plain NodeJS compatible, if you want to use
 // weird ES6 syntax you have to transpile your extension yourself
 const communityExtensions = glob
-    .sync(path.resolve('/', 'var', 'lib', 'rapha', 'reaper', 'extensions', '[!_]*', 'index.js'))
-    .map(file => require(path.resolve(file)))
+    .sync(path.resolve('/', 'var', 'lib', 'rapha', 'extensions', '[!_]*', 'index.js'))
 
 registerAction({
     hook: SETTINGS,
@@ -75,12 +73,13 @@ registerAction({
         const enabledExtensions = config.get('EXTENSIONS', '---')
         const coreExtensions = glob
             .sync(path.resolve(__dirname, 'extensions', 'core', `@(${enabledExtensions})`, 'index.js'))
-            .map(file => require(path.resolve(file)))
 
         // register extensions
         const extensions = [ ...devExtensions, ...coreExtensions, ...communityExtensions ]
-        for (const extension of extensions) {
+        for (const extensionPath of extensions) {
+            const extension = require(extensionPath)
             if (extension.register) {
+                logInfo(`activate extension: ${extensionPath}`)
                 await extension.register({
                     registerAction,
                     createHook,
