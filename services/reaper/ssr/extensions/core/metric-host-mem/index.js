@@ -4,8 +4,9 @@ import { DAEMONS_START } from 'ssr/features/api-send/hooks'
 
 export const name = 'metric-host-mem'
 
-export const daemonHandler = async (ctx, actions) =>
+export const daemonHandler = async (ctx, actions) => {
     actions.pushMetric('host-mem', await si.mem())
+}
 
 export const register = ({ registerAction }) => {
     const daemonSettings = {
