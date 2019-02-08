@@ -6,7 +6,7 @@
 # Running container's name
 organization?=marcopeg
 name?=rapha-proxy
-version?=0.0.7
+version?=0.0.8
 
 # Docker image tag name
 tag?=${name}

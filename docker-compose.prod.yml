@@ -66,8 +66,12 @@ services:
         depends_on:
             - barn
             - grafana
+            - postgres
         networks:
             - production
+        environment:
+            - BOARDS_ENABLED=${BOARDS_ENABLED}
+            - BOARDS_TOKEN=${BOARDS_TOKEN}
         ports:
             - ${SERVER_PORT}:80
 
