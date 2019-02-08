@@ -1,6 +1,6 @@
 
 # DockerHUB Version Number
-version?=0.0.7
+version?=0.0.8
 
 #
 # Releases the production images to DockerHUB
@@ -87,6 +87,7 @@ ungrafana:
 
 
 proxy:
+	HUMBLE_ENV=dev humble build proxy
 	HUMBLE_ENV=dev humble up -d proxy
 	HUMBLE_ENV=dev humble logs -f proxy
 
