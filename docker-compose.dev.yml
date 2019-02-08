@@ -1,52 +1,6 @@
 version: '2.1'
 services:
 
-    postgres:
-        image: timescale/timescaledb:1.2.0-pg11
-        networks:
-            - development
-        ports:
-            - ${PG_PORT-5053}:5432
-        environment:
-            POSTGRES_USER: ${PG_USERNAME:-postgres}
-            POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
-            POSTGRES_DB: ${PG_DATABASE:-postgres}
-        volumes:
-            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
-            - ${HUMBLE_BACKUP}:/backup
-        restart: always
-        healthcheck:
-            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
-            interval: 10s
-            timeout: 10s
-            retries: 10
-
-    grafana:
-        image: grafana/grafana:5.4.3
-        networks:
-            - development
-        ports:
-            - ${GRAFANA_PORT-5051}:3000
-        environment:
-            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
-            - GF_SERVER_ROOT_URL=http://grafana:3000/grafana/
-        volumes:
-            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
-
-    boards:
-        image: grafana/grafana:5.4.3
-        networks:
-            - development
-        ports:
-            - ${BOARDS_PORT-5058}:3000
-        environment:
-            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
-            - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
-            - GF_AUTH_PROXY_AUTO_SIGN_UP=false
-            - GF_AUTH_PROXY_ENABLED=true
-        volumes:
-            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
-
     barn:
         build:
             context: ./services/barn
@@ -55,8 +9,6 @@ services:
             - postgres
         networks:
             - development
-        # ports:
-        #     - ${SERVER_PORT:-5050}:8080
         environment:
             APP_ID: rapha-barn
             NODE_ENV: ${NODE_ENV:-development}
@@ -132,6 +84,52 @@ services:
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
 
+    grafana:
+        image: grafana/grafana:5.4.3
+        networks:
+            - development
+        ports:
+            - ${GRAFANA_PORT-5051}:3000
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
+            - GF_SERVER_ROOT_URL=http://grafana:3000/grafana/
+        volumes:
+            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
+
+    boards:
+        image: grafana/grafana:5.4.3
+        networks:
+            - development
+        ports:
+            - ${BOARDS_PORT-5058}:3000
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
+            - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
+            - GF_AUTH_PROXY_AUTO_SIGN_UP=false
+            - GF_AUTH_PROXY_ENABLED=true
+        volumes:
+            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
+
+    postgres:
+        image: timescale/timescaledb:1.2.0-pg11
+        networks:
+            - development
+        ports:
+            - ${PG_PORT-5053}:5432
+        environment:
+            POSTGRES_USER: ${PG_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+            POSTGRES_DB: ${PG_DATABASE:-postgres}
+        volumes:
+            - ${HUMBLE_DATA}/pg:/var/lib/postgresql/data
+            - ${HUMBLE_BACKUP}:/backup
+        restart: always
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
+            interval: 10s
+            timeout: 10s
+            retries: 10
+
     proxy:
         build:
             context: ./services/proxy
@@ -145,6 +143,10 @@ services:
             - postgres
         ports:
             - 80:80
+        environment:
+            - BOARDS_ENABLED=${BOARDS_ENABLED:-false}
+            - BOARDS_TOKEN=${BOARDS_TOKEN:-}
+        restart: always
     
 networks:
     development:
