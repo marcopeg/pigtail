@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1549554446808,
+  "id": 3,
+  "iteration": 1549637383256,
   "links": [],
   "panels": [
     {
@@ -39,7 +39,7 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 3,
         "x": 0,
         "y": 0
@@ -85,7 +85,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  (value->'used')::float / (value->'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-mem'\nAND host = '$host'\nORDER BY ctime DESC",
+          "rawSql": "SELECT\n  ((value->'total')::float - (value->'available')::float) / (value->'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-mem'\nAND host = '$host'\nORDER BY ctime DESC",
           "refId": "A",
           "select": [
             [
@@ -127,7 +127,7 @@
       "dashes": false,
       "fill": 1,
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 7,
         "x": 3,
         "y": 0
@@ -311,7 +311,7 @@
       "columns": [],
       "fontSize": "100%",
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 14,
         "x": 10,
         "y": 0
@@ -460,19 +460,19 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "format": "deckbytes",
+      "format": "percentunit",
       "gauge": {
-        "maxValue": 2900000,
+        "maxValue": 1,
         "minValue": 0,
         "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 3,
         "x": 0,
-        "y": 4
+        "y": 3
       },
       "id": 9,
       "interval": null,
@@ -515,7 +515,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  (value->'data')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-fsize'\nAND host = '$host'\nORDER BY ctime DESC\n",
+          "rawSql": "SELECT\n  (value->'/'->>'used')::float / (value->'/'->>'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-disk'\nAND host = '$host'\nORDER BY ctime DESC\n",
           "refId": "A",
           "select": [
             [
@@ -537,10 +537,109 @@
           ]
         }
       ],
-      "thresholds": "1750000,2000000",
-      "title": "Disk Pressure",
+      "thresholds": "0.5,0.7",
+      "title": "Root Disk Pressure",
       "type": "singlestat",
       "valueFontSize": "50%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 1,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 6
+      },
+      "id": 11,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "usage",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  (value->'/docker-data'->>'used')::float / (value->'/docker-data'->>'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-disk'\nAND host = '$host'\nORDER BY ctime DESC\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "0.5,0.7",
+      "title": "Data Disk Pressure",
+      "type": "singlestat",
+      "valueFontSize": "80%",
       "valueMaps": [
         {
           "op": "=",
@@ -557,7 +656,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 9
       },
       "id": 4,
       "links": [],
@@ -634,8 +733,8 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "text": "mysocial1",
-          "value": "mysocial1"
+          "text": "marcopeg",
+          "value": "marcopeg"
         },
         "hide": 0,
         "label": "host",
@@ -643,11 +742,21 @@
         "options": [
           {
             "selected": true,
-            "text": "mysocial1",
-            "value": "mysocial1"
+            "text": "marcopeg",
+            "value": "marcopeg"
+          },
+          {
+            "selected": false,
+            "text": "mysocial",
+            "value": "mysocial"
+          },
+          {
+            "selected": false,
+            "text": "hh",
+            "value": "hh"
           }
         ],
-        "query": "mysocial1",
+        "query": "marcopeg,mysocial,hh",
         "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
@@ -655,7 +764,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -686,5 +795,5 @@
   "timezone": "",
   "title": "Overview1",
   "uid": "homko3_mk",
-  "version": 6
+  "version": 12
 }
