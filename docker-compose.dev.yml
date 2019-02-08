@@ -28,10 +28,24 @@ services:
         ports:
             - ${GRAFANA_PORT-5051}:3000
         environment:
-            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
+            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
+            - GF_SERVER_ROOT_URL=http://grafana:3000/grafana/
         volumes:
             - ${HUMBLE_DATA}/grafana:/var/lib/grafana
 
+    boards:
+        image: grafana/grafana:5.4.3
+        networks:
+            - development
+        ports:
+            - ${BOARDS_PORT-5058}:3000
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
+            - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
+            - GF_AUTH_PROXY_AUTO_SIGN_UP=false
+            - GF_AUTH_PROXY_ENABLED=true
+        volumes:
+            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
 
     barn:
         build:
@@ -41,8 +55,8 @@ services:
             - postgres
         networks:
             - development
-        ports:
-            - ${SERVER_PORT:-5050}:8080
+        # ports:
+        #     - ${SERVER_PORT:-5050}:8080
         environment:
             APP_ID: rapha-barn
             NODE_ENV: ${NODE_ENV:-development}
@@ -117,6 +131,20 @@ services:
             - ./data/pg:/var/lib/rapha/fsize/rapha-pg
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
+
+    proxy:
+        build:
+            context: ./services/proxy
+            dockerfile: Dockerfile
+        networks:
+            - development
+        depends_on:
+            - barn
+            - grafana
+            - boards
+            - postgres
+        ports:
+            - 80:80
     
 networks:
     development:

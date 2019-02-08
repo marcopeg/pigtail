@@ -87,6 +87,7 @@ ungrafana:
 
 
 proxy:
+	HUMBLE_ENV=dev humble build proxy
 	HUMBLE_ENV=dev humble up -d proxy
 	HUMBLE_ENV=dev humble logs -f proxy
 
