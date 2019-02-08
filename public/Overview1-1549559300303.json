@@ -15,13 +15,13 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1549550976245,
+  "id": 2,
+  "iteration": 1549554446808,
   "links": [],
   "panels": [
     {
       "cacheTimeout": null,
-      "colorBackground": true,
+      "colorBackground": false,
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
@@ -32,14 +32,14 @@
       ],
       "format": "percentunit",
       "gauge": {
-        "maxValue": 100,
+        "maxValue": 1,
         "minValue": 0,
-        "show": false,
+        "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 3,
         "x": 0,
         "y": 0
@@ -85,7 +85,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  (value->'used')::float / (value->'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-mem'\nAND host = '$host'\n",
+          "rawSql": "SELECT\n  (value->'used')::float / (value->'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-mem'\nAND host = '$host'\nORDER BY ctime DESC",
           "refId": "A",
           "select": [
             [
@@ -107,10 +107,10 @@
           ]
         }
       ],
-      "thresholds": "0.5,0.6,0.75",
+      "thresholds": "0.5,0.75",
       "title": "Memory Pressure",
       "type": "singlestat",
-      "valueFontSize": "80%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "op": "=",
@@ -451,7 +451,7 @@
     },
     {
       "cacheTimeout": null,
-      "colorBackground": true,
+      "colorBackground": false,
       "colorPostfix": false,
       "colorPrefix": false,
       "colorValue": false,
@@ -460,19 +460,19 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "format": "percentunit",
+      "format": "deckbytes",
       "gauge": {
-        "maxValue": 100,
+        "maxValue": 2900000,
         "minValue": 0,
-        "show": false,
+        "show": true,
         "thresholdLabels": false,
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 3,
         "x": 0,
-        "y": 5
+        "y": 4
       },
       "id": 9,
       "interval": null,
@@ -515,7 +515,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  (value->'/'->>'used')::float / (value->'/'->>'total')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-disk'\nAND host = '$host'\n",
+          "rawSql": "SELECT\n  (value->'data')::float as usage\nFROM\n  metrics\nWHERE\n  metric = 'host-fsize'\nAND host = '$host'\nORDER BY ctime DESC\n",
           "refId": "A",
           "select": [
             [
@@ -537,10 +537,10 @@
           ]
         }
       ],
-      "thresholds": "50,60,75",
-      "title": "Root Disk Pressure",
+      "thresholds": "1750000,2000000",
+      "title": "Disk Pressure",
       "type": "singlestat",
-      "valueFontSize": "80%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "op": "=",
@@ -634,8 +634,8 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "text": "localhost",
-          "value": "localhost"
+          "text": "mysocial1",
+          "value": "mysocial1"
         },
         "hide": 0,
         "label": "host",
@@ -643,21 +643,11 @@
         "options": [
           {
             "selected": true,
-            "text": "localhost",
-            "value": "localhost"
-          },
-          {
-            "selected": false,
-            "text": "host1",
-            "value": "host1"
-          },
-          {
-            "selected": false,
-            "text": "host2",
-            "value": "host2"
+            "text": "mysocial1",
+            "value": "mysocial1"
           }
         ],
-        "query": "localhost,host1,host2",
+        "query": "mysocial1",
         "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
@@ -696,5 +686,5 @@
   "timezone": "",
   "title": "Overview1",
   "uid": "homko3_mk",
-  "version": 28
+  "version": 6
 }

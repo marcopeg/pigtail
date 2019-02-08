@@ -14,15 +14,17 @@ export const daemonHandler = async (ctx, actions) => {
 
 export const register = ({ registerAction }) => {
     // list all the disk that you want to map using ";;" as delimiter
-    // ";;/;;/mnt/data;;"
+    // "/;/mnt/data"
     //
     // to list all disks, simply write "all"
-    const filterRule = config.get('METRIC_HOST_DISK_FILTER', ';;/;;')
-    console.log(filterRule)
+    const filterConfig = config.get('METRIC_HOST_DISK_FILTER', 'all')
+    const filterRule = filterConfig === 'all'
+        ? filterConfig
+        : filterConfig.split(';')
 
     const filterHandler = filterRule === 'all'
         ? () => true
-        : (disk) => filterRule.indexOf(`;${disk.mount};`) !== -1
+        : (disk) => filterRule.includes(disk.mount)
 
     const daemonSettings = {
         name,
