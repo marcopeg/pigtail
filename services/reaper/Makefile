@@ -6,7 +6,7 @@
 # Running container's name
 organization?=marcopeg
 name?=rapha-reaper
-version?=0.0.6
+version?=0.0.7
 
 # Docker image tag name
 tag?=${name}

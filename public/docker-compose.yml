@@ -32,6 +32,8 @@ services:
         image: marcopeg/rapha-barn:${VERSION:-latest}
         networks:
             - production
+        depends_on:
+            - postgres
         environment:
             PG_HOST: postgres
             PG_PORT: 5432
@@ -57,6 +59,7 @@ services:
         depends_on:
             - barn
             - grafana
+            - postgres
         networks:
             - production
         ports:

@@ -1,0 +1,12 @@
+ssr
+Dockerfile
+Dockerfile.dev
+Makefile
+index.dev.js
+.babelrc
+.dockerignore
+.eslintignore
+.eslintrc
+.gitignore
+.npmignore
+.env.local

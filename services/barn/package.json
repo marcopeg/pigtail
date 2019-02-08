@@ -1,6 +1,6 @@
 {
   "name": "kart",
-  "version": "0.0.0",
+  "version": "0.0.7",
   "private": true,
   "scripts": {
     "start": "./node_modules/.bin/react-scripts start",
