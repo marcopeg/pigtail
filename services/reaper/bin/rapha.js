@@ -6,13 +6,22 @@ const clipboardy = require('clipboardy')
 const env = require('node-env-file')
 
 // load ".rapharc"
-env(path.resolve(process.cwd(), '.rapharc'))
+try {
+    env(path.resolve(process.cwd(), '.rapharc'))
+} catch (err) {
+    console.log('')
+    console.log('--- Rapha Reaper ---')
+    console.log('WARNING: no config file was found (.rapharc)')
+    console.log('generic environment variables will be used to setup the reaper.')
+    console.log('')
+    console.log('')
+}
 
 const pm2 = path.resolve(__dirname, '..', 'node_modules', '.bin', 'pm2')
 const app = path.resolve(__dirname, '..', 'rapha-reaper.js')
 
 const args = process.argv.splice(process.execArgv.length + 2)
-const mainCmd = args.splice(0, 1).shift()
+const mainCmd = args.splice(0, 1).shift() || 'help'
 
 const execp = cmd => new Promise((resolve, reject) =>
     exec(cmd, {}, (err, stdout) =>
