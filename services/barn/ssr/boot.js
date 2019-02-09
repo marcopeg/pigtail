@@ -42,7 +42,7 @@ const devExtensions = process.env.NODE_ENV === 'development'
 // @NOTE: extensions should be plain NodeJS compatible, if you want to use
 // weird ES6 syntax you have to transpile your extension yourself
 const communityExtensions = glob
-    .sync(path.resolve('/', 'var', 'lib', 'rapha', 'extensions', '[!_]*', 'index.js'))
+    .sync(path.resolve('/', 'var', 'lib', 'pigtail', 'extensions', '[!_]*', 'index.js'))
 
 registerAction({
     hook: SETTINGS,

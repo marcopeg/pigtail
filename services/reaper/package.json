@@ -1,6 +1,6 @@
 {
   "name": "@pigtail/reaper",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "scripts": {
     "---// DEV": "",
     "start:dev": "./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js",
@@ -9,8 +9,8 @@
     "clean": "rm -rf ./build-ssr",
     "release": "npm run build && npm publish --access public .",
     "---// PROD": "",
-    "start": "./node_modules/.bin/pm2 start rapha-reaper.js",
-    "stop": "./node_modules/.bin/pm2 stop rapha-reaper.js && ./node_modules/.bin/pm2 delete rapha-reaper.js",
+    "start": "./node_modules/.bin/pm2 start pigtail.js",
+    "stop": "./node_modules/.bin/pm2 stop pigtail.js && ./node_modules/.bin/pm2 delete pigtail.js",
     "pm2": "./node_modules/.bin/pm2"
   },
   "eslintConfig": {

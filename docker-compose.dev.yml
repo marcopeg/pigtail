@@ -10,7 +10,7 @@ services:
         networks:
             - development
         environment:
-            APP_ID: rapha-barn
+            APP_ID: pigtail-barn
             NODE_ENV: ${NODE_ENV:-development}
             BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-info}
@@ -26,13 +26,13 @@ services:
             REACT_SSR: ${REACT_SSR:-no}
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED:-no}
             REACT_SSR_USE_CACHE: ${REACT_SSR_USE_CACHE:-no}
-            API_DEFAULT_TOKEN: ${API_TOKEN:-raphaDevToken}
+            API_DEFAULT_TOKEN: ${API_TOKEN:-xxx}
             EXTENSIONS: ${BARN_EXTENSIONS:-}
         volumes:
             - ./services/barn/ssr:/usr/src/app/ssr
             - ./services/barn/src:/usr/src/app/src
             - ./services/barn/build:/usr/src/app/build
-            - ./extensions/barn:/var/lib/rapha/extensions
+            - ./extensions/barn:/var/lib/pigtail/extensions
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev:api" ]
 
@@ -71,7 +71,7 @@ services:
             BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-verbose}
             API_ENDPOINT: ${API_ENDPOINT:-http://barn:8080/api}
-            API_TOKEN: ${API_TOKEN:-raphaDevToken}
+            API_TOKEN: ${API_TOKEN:-xxx}
             HOST_NAME: ${HOST_NAME:-localhost}
             EXTENSIONS: ${REAPER_EXTENSIONS:-}
             METRIC_HOST_DISK_FILTER: ;;/;;
@@ -79,8 +79,8 @@ services:
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
             - ./services/reaper/ssr:/usr/src/app/ssr
-            - ./extensions/reaper:/var/lib/rapha/extensions
-            - ./data/pg:/var/lib/rapha/fsize/rapha-pg
+            - ./extensions/reaper:/var/lib/pigtail/extensions
+            - ./data/pg:/var/lib/pigtail/fsize/pigtail-pg
         working_dir: /usr/src/app
         entrypoint: [ "yarn", "start:dev" ]
 
@@ -125,7 +125,7 @@ services:
             - ${HUMBLE_BACKUP}:/backup
         restart: always
         healthcheck:
-            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
+            test: ["CMD", "pg_isready", "-q", "-d", "${PG_DATABASE:-postgres}", "-U", "${PG_USERNAME:-postgres}"]
             interval: 10s
             timeout: 10s
             retries: 10

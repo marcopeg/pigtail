@@ -27,7 +27,7 @@ _Core extensions are shipped with the public Docker image._
 People can run the official Docker image and still add custom made extensions
 by mapping a volume in:
 
-    /var/lib/rapha/extensions
+    /var/lib/pigtail/extensions
 
 Extensions in this folder should be NodeJS 10.x compatible, you'd better transpile
 your community extension.

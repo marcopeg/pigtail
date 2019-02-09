@@ -29,12 +29,12 @@ for each target using either the alias or the target path as key:
 
 The daemon will measure and report any subfolder of:
 
-    /var/lib/rapha/fsize
+    /var/lib/pigtail/fsize
 
 Mount your targets as subfolders:
 
-    -v /Users/foo/target1:/var/lib/rapha/fsize/f1 \
-    -v /Users/foo/target2:/var/lib/rapha/fsize/target2
+    -v /Users/foo/target1:/var/lib/pigtail/fsize/f1 \
+    -v /Users/foo/target2:/var/lib/pigtail/fsize/target2
 
 The folder name will be used as alias:
 

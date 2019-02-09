@@ -16,7 +16,7 @@ services:
             - ${HUMBLE_BACKUP}:/backup
         restart: always
         healthcheck:
-            test: ["CMD", "pg_isready", "-q", "-d", "content", "-U", "rawb_content_user"]
+            test: ["CMD", "pg_isready", "-q", "-d", "${PG_PASSWORD}", "-U", "${PG_USERNAME}"]
             interval: 10s
             timeout: 10s
             retries: 10
@@ -43,7 +43,7 @@ services:
             PG_DATABASE: ${PG_DATABASE}
             PG_USERNAME: ${PG_USERNAME}
             PG_PASSWORD: ${PG_PASSWORD}
-            API_DEFAULT_TOKEN: ${API_TOKEN:-raphaDevToken}
+            API_DEFAULT_TOKEN: ${API_TOKEN:-xxx}
 
     reaper:
         build:
@@ -54,7 +54,7 @@ services:
         environment:
             HOST_NAME: localhost
             API_ENDPOINT: http://barn:8080/api
-            API_TOKEN: ${API_TOKEN:-raphaDevToken}
+            API_TOKEN: ${API_TOKEN:-xxx}
         volumes:
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock

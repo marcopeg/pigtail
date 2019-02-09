@@ -19,9 +19,9 @@ ENV GRAFANA_ENABLED "true"
 
 # Protect Public Boards Proxy
 ENV BOARDS_ENABLED "false"
-ENV BOARDS_USER "public@rapha.io"
+ENV BOARDS_USER "public@gopigtail.com"
 ENV BOARDS_TOKEN "xxx"
-ENV BOARDS_COOKIE_NAME "raphatoken"
+ENV BOARDS_COOKIE_NAME "pigtail-public-boards"
 ENV BOARDS_COOKIE_MAX_AGE "10000"
 
 CMD ["/usr/bin/dockerize", "-template", "/app/nginx.conf.tmpl:/etc/nginx/nginx.conf", "nginx"]

@@ -9,7 +9,7 @@ export const name = 'metric-host-fsize'
 // fills up a list of targets from mounted volumes and assigns
 // the alias as last folder name
 const getTargetsFromVolumes = () => glob
-    .sync('/var/lib/rapha/fsize/*')
+    .sync('/var/lib/pigtail/fsize/*')
     .map(s => `${s}::${s.split('/').pop()}`)
 
 export const daemonHandler = async (ctx, actions) => {

@@ -93,7 +93,7 @@ ADD index.js /usr/src/app
 #
 
 # Default environment configuration:
-ENV APP_ID rapha-collector
+ENV APP_ID pigtail-collector
 ENV NODE_ENV production
 ENV BABEL_ENV node
 ENV LOG_LEVEL error
@@ -103,7 +103,7 @@ ENV REACT_SSR no
 ENV REACT_SSR_ENABLED no
 ENV REACT_SSR_USE_CACHE no
 ENV PG_PORT 5432
-ENV PG_DATABASE rapha
+ENV PG_DATABASE pigtail
 ENV PG_MAX_CONN_ATTEMPTS 10
 ENV PG_CONN_ATTEMPTS_DELAY 2500
 

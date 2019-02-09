@@ -5,7 +5,7 @@ const exec = require('child_process').exec
 const clipboardy = require('clipboardy')
 const env = require('node-env-file')
 
-// load ".rapharc"
+// load "Pigtailfile"
 try {
     env(path.resolve(process.cwd(), 'Pigtailfile'))
 } catch (err) {
@@ -18,7 +18,7 @@ try {
 }
 
 const pm2 = path.resolve(__dirname, '..', 'node_modules', '.bin', 'pm2')
-const app = path.resolve(__dirname, '..', 'rapha-reaper.js')
+const app = path.resolve(__dirname, '..', 'pigtail.js')
 
 const args = process.argv.splice(process.execArgv.length + 2)
 const mainCmd = args.splice(0, 1).shift() || 'help'
@@ -57,13 +57,13 @@ const monit = () => {
     clipboardy.writeSync(`${pm2} monit ${app} ${args.join(' ')}`)
 }
 
-const stop = () =>
+const pause = () =>
     execp(`${pm2} stop ${app} ${args.join(' ')}`)
         .then(onSuccess)
         .catch(onError)
 
-const down = () => {
-    stop()
+const stop = () => {
+    pause()
         .then(() =>
             execp(`${pm2} delete ${app} ${args.join(' ')}`)
                 .then(onSuccess)
@@ -73,13 +73,13 @@ const down = () => {
 }
 
 const help = () => {
-    console.log('@pigtail help')
+    console.log('@pigtail help is coming ...')
 }
 
 const commandsMap = {
     start,
+    pause,
     stop,
-    down,
     monit,
     help,
 }

@@ -1,7 +1,7 @@
 import { logVerbose } from 'ssr/services/logger'
 
 const ctx = {
-    hostName: 'rapha',
+    hostName: 'pigtail',
     metrics: [],
     logs: [],
 }
