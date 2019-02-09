@@ -4,9 +4,9 @@
 
 
 # Running container's name
-organization?=marcopeg
-name?=rapha-proxy
-version?=0.0.8
+organization?=pigtail
+name?=proxy
+version?=0.0.1
 
 # Docker image tag name
 tag?=${name}

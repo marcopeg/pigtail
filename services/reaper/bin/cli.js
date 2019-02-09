@@ -7,11 +7,11 @@ const env = require('node-env-file')
 
 // load ".rapharc"
 try {
-    env(path.resolve(process.cwd(), '.rapharc'))
+    env(path.resolve(process.cwd(), 'Pigtailfile'))
 } catch (err) {
     console.log('')
-    console.log('--- Rapha Reaper ---')
-    console.log('WARNING: no config file was found (.rapharc)')
+    console.log('-- @pigtail ---')
+    console.log('WARNING: no config file was found (Pigtailfile)')
     console.log('generic environment variables will be used to setup the reaper.')
     console.log('')
     console.log('')
@@ -73,7 +73,7 @@ const down = () => {
 }
 
 const help = () => {
-    console.log('help')
+    console.log('@pigtail help')
 }
 
 const commandsMap = {

@@ -1,6 +1,6 @@
 {
-  "name": "rapha-reaper",
-  "version": "0.0.8",
+  "name": "@pigtail/reaper",
+  "version": "0.0.2",
   "scripts": {
     "---// DEV": "",
     "start:dev": "./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js",
@@ -52,6 +52,11 @@
   },
   "preferGlobal": true,
   "bin": {
-    "rapha": "./bin/rapha.js"
-  }
+    "pigtail": "./bin/cli.js"
+  },
+  "keywords": [
+    "metrics",
+    "monitoring",
+    "agent"
+  ]
 }

@@ -4,12 +4,12 @@
 
 
 # Running container's name
-organization?=marcopeg
-name?=rapha-barn
-version?=0.0.8
+organization?=pigtail
+name?=barn
+version:= $(shell node -p "require('./package.json').version")
 
 # Docker image tag name
-tag?=${name}
+tag?=${organization}/${name}
 
 # Mish
 loglevel?=info
@@ -63,9 +63,9 @@ ssh:
 		/bin/sh
 
 publish:
-	docker tag ${tag}:${version} ${organization}/${name}:${version}
-	docker tag ${tag}:${version} ${organization}/${name}:latest
-	docker push ${organization}/${name}:${version}
-	docker push ${organization}/${name}:latest
+	docker tag ${tag}:${version} ${tag}:${version}
+	docker tag ${tag}:${version} ${tag}:latest
+	docker push ${tag}:${version}
+	docker push ${tag}:latest
 
 release: image publish

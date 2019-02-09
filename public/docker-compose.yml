@@ -29,7 +29,7 @@ services:
             - ./data/grafana:/var/lib/grafana
 
     barn:
-        image: marcopeg/rapha-barn:${VERSION:-latest}
+        image: pigtail/barn:${VERSION:-latest}
         networks:
             - production
         depends_on:
@@ -43,7 +43,7 @@ services:
             API_DEFAULT_TOKEN: ${API_TOKEN}
 
     reaper:
-        image: marcopeg/rapha-reaper:${VERSION:-latest}
+        image: pigtail/reaper:${VERSION:-latest}
         networks:
             - production
         environment:
@@ -55,7 +55,7 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
 
     proxy:
-        image: marcopeg/rapha-proxy:${VERSION:-latest}
+        image: pigtail/proxy:${VERSION:-latest}
         depends_on:
             - barn
             - grafana

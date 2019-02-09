@@ -4,9 +4,9 @@
 
 
 # Running container's name
-organization?=marcopeg
-name?=rapha-reaper
-version?=0.0.8
+organization?=pigtail
+name?=reaper
+version:= $(shell node -p "require('./package.json').version")
 
 # Docker image tag name
 tag?=${name}
