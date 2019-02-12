@@ -34,31 +34,31 @@ services:
         networks:
             - ${NETWORK:-pigtail}
         environment:
-            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-pigtail}
+            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
             GF_SERVER_ROOT_URL: http://grafana:3000/grafana/
         volumes:
             - ./data/grafana:/var/lib/grafana
         restart: always
 
-    boards:
-        image: grafana/grafana:5.4.3
-        networks:
-            - ${NETWORK:-pigtail}
-        environment:
-            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-pigtail}
-            - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
-            - GF_AUTH_PROXY_AUTO_SIGN_UP=false
-            - GF_AUTH_PROXY_ENABLED=true
-        volumes:
-            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
-        restart: always
+    # boards:
+    #     depends_on:
+    #         - grafana
+    #     image: grafana/grafana:5.4.3
+    #     networks:
+    #         - ${NETWORK:-pigtail}
+    #     environment:
+    #         - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-pigtail}
+    #         - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
+    #         - GF_AUTH_PROXY_AUTO_SIGN_UP=false
+    #         - GF_AUTH_PROXY_ENABLED=true
+    #     volumes:
+    #         - ${HUMBLE_DATA}/grafana:/var/lib/grafana
+    #     restart: always
 
     postgres:
         image: timescale/timescaledb:1.2.0-pg11
         networks:
             - ${NETWORK:-pigtail}
-        ports:
-            - ${PG_PORT-5053}:5432
         environment:
             POSTGRES_USER: ${PG_USERNAME:-postgres}
             POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
@@ -66,12 +66,17 @@ services:
         volumes:
             - ./data/pg:/var/lib/postgresql/data
         restart: always
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${PG_PASSWORD:-postgres}", "-U", "${PG_USERNAME:-postgres}"]
+            interval: 10s
+            timeout: 10s
+            retries: 10
 
     proxy:
         image: pigtail/proxy:${VERSION:-latest}
         depends_on:
             - barn
-            - boards
+            # - boards
             - grafana
             - postgres
         networks:

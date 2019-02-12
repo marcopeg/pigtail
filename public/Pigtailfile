@@ -1,3 +1,6 @@
-HOST_NAME=marcopeg
+HOST_NAME=localhost
 API_ENDPOINT=http://localhost/api
 API_TOKEN=xxx
+
+EXTENSIONS=metric-host-disk|metric-host-mem
+METRIC_HOST_DISK_FILTER=/
