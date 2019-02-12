@@ -1,10 +1,11 @@
 {
   "name": "@pigtail/reaper",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "---// DEV": "",
     "start:dev": "./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js",
-    "build": "NODE_ENV=production BABEL_ENV=node ./node_modules/.bin/babel ssr --out-dir ./build-ssr",
+    "start:prod": "node index",
+    "build": "NODE_ENV=production ./node_modules/.bin/babel ssr --out-dir ./build-ssr",
     "lint": "./node_modules/.bin/eslint .",
     "clean": "rm -rf ./build-ssr",
     "release": "npm run build && npm publish --access public .",

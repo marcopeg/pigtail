@@ -1,48 +1,10 @@
 version: '2.1'
 services:
 
-    postgres:
-        image: timescale/timescaledb:1.2.0-pg11
-        networks:
-            - production
-        ports:
-            - ${PG_PORT-5053}:5432
-        environment:
-            POSTGRES_USER: ${PG_USERNAME:-postgres}
-            POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
-            POSTGRES_DB: ${PG_DATABASE:-postgres}
-        volumes:
-            - ./data/pg:/var/lib/postgresql/data
-        restart: always
-
-    grafana:
-        image: grafana/grafana:5.4.3
-        networks:
-            - production
-        environment:
-            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-pigtail}
-            GF_SERVER_ROOT_URL: http://grafana:3000/grafana/
-        volumes:
-            - ./data/grafana:/var/lib/grafana
-        restart: always
-
-    boards:
-        image: grafana/grafana:5.4.3
-        networks:
-            - production
-        environment:
-            - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-pigtail}
-            - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
-            - GF_AUTH_PROXY_AUTO_SIGN_UP=false
-            - GF_AUTH_PROXY_ENABLED=true
-        volumes:
-            - ${HUMBLE_DATA}/grafana:/var/lib/grafana
-        restart: always
-
     barn:
         image: pigtail/barn:${VERSION:-latest}
         networks:
-            - production
+            - ${NETWORK:-pigtail}
         depends_on:
             - postgres
         environment:
@@ -57,7 +19,7 @@ services:
     reaper:
         image: pigtail/reaper:${VERSION:-latest}
         networks:
-            - production
+            - ${NETWORK:-pigtail}
         environment:
             HOST_NAME: ${HOST_NAME:-localhost}
             API_ENDPOINT: ${API_ENDPOINT:-http://barn:8080/api}
@@ -67,15 +29,58 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
         restart: always
 
+    grafana:
+        image: grafana/grafana:5.4.3
+        networks:
+            - ${NETWORK:-pigtail}
+        environment:
+            GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana}
+            GF_SERVER_ROOT_URL: http://grafana:3000/grafana/
+        volumes:
+            - ./data/grafana:/var/lib/grafana
+        restart: always
+
+    # boards:
+    #     depends_on:
+    #         - grafana
+    #     image: grafana/grafana:5.4.3
+    #     networks:
+    #         - ${NETWORK:-pigtail}
+    #     environment:
+    #         - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-pigtail}
+    #         - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
+    #         - GF_AUTH_PROXY_AUTO_SIGN_UP=false
+    #         - GF_AUTH_PROXY_ENABLED=true
+    #     volumes:
+    #         - ${HUMBLE_DATA}/grafana:/var/lib/grafana
+    #     restart: always
+
+    postgres:
+        image: timescale/timescaledb:1.2.0-pg11
+        networks:
+            - ${NETWORK:-pigtail}
+        environment:
+            POSTGRES_USER: ${PG_USERNAME:-postgres}
+            POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
+            POSTGRES_DB: ${PG_DATABASE:-postgres}
+        volumes:
+            - ./data/pg:/var/lib/postgresql/data
+        restart: always
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${PG_PASSWORD:-postgres}", "-U", "${PG_USERNAME:-postgres}"]
+            interval: 10s
+            timeout: 10s
+            retries: 10
+
     proxy:
         image: pigtail/proxy:${VERSION:-latest}
         depends_on:
             - barn
-            - boards
+            # - boards
             - grafana
             - postgres
         networks:
-            - production
+            - ${NETWORK:-pigtail}
         environment:
             - BOARDS_ENABLED=${BOARDS_ENABLED:-false}
             - BOARDS_TOKEN=${BOARDS_TOKEN:-xxx}
@@ -84,4 +89,4 @@ services:
         restart: always
 
 networks:
-    production:
+    pigtail:

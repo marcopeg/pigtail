@@ -12,7 +12,8 @@ RUN apk --update add curl \
     && rm -rf /var/cache/apk/*
 
 
-COPY nginx.conf.tmpl /app/nginx.conf.tmpl
+ADD nginx.conf.tmpl /app/nginx.conf.tmpl
+ADD src /usr/share/nginx/html
 
 ENV DNS_BARN "barn"
 ENV DNS_GRAFANA "grafana"

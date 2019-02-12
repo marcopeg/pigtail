@@ -135,8 +135,8 @@ RUN set -eux; \
 # ==========================================
 #
 
+# ENV BABEL_ENV node
 ENV NODE_ENV production
-ENV BABEL_ENV node
 ENV LOG_LEVEL error
 
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT [ "node", "index.js" ]

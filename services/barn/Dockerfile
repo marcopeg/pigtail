@@ -93,11 +93,8 @@ ADD index.js /usr/src/app
 #
 
 # Default environment configuration:
-ENV APP_ID pigtail-collector
 ENV NODE_ENV production
-ENV BABEL_ENV node
 ENV LOG_LEVEL error
-ENV SERVER_PORT 8080
 ENV GRAPHQL_MOUNT_POINT /api
 ENV REACT_SSR no
 ENV REACT_SSR_ENABLED no
@@ -107,4 +104,4 @@ ENV PG_DATABASE pigtail
 ENV PG_MAX_CONN_ATTEMPTS 10
 ENV PG_CONN_ATTEMPTS_DELAY 2500
 
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT [ "node", "index.js" ]
