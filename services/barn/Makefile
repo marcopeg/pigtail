@@ -6,7 +6,7 @@
 # Running container's name
 organization?=pigtail
 name?=barn
-version:= $(shell node -p "require('./package.json').version")
+version:= $(shell node -p "require('../../pigtail.json').version")
 
 # Docker image tag name
 tag?=${organization}/${name}

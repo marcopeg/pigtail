@@ -6,7 +6,7 @@
 # Running container's name
 organization?=pigtail
 name?=proxy
-version?=0.0.1
+version:= $(shell node -p "require('../../pigtail.json').version")
 
 # Docker image tag name
 tag?=${name}

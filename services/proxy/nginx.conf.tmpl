@@ -8,15 +8,15 @@ events {
 
 http {
     upstream barn_up {
-        server barn:8080;
+        server {{ .Env.DNS_BARN }}:8080;
     }
 
     upstream grafana_up {
-        server grafana:3000;
+        server {{ .Env.DNS_GRAFANA }}:3000;
     }
     
     upstream boards_up {
-        server boards:3000;
+        server {{ .Env.DNS_BOARDS }}:3000;
     }
 
     server {

@@ -14,6 +14,10 @@ RUN apk --update add curl \
 
 COPY nginx.conf.tmpl /app/nginx.conf.tmpl
 
+ENV DNS_BARN "barn"
+ENV DNS_GRAFANA "grafana"
+ENV DNS_BOARDS "boards"
+
 # Protect Grafana Proxy
 ENV GRAFANA_ENABLED "true"
 

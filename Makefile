@@ -7,9 +7,9 @@ version?=0.0.8
 # It is important to run the proper version number!
 #
 release:
-	(cd services/barn && make release version=${version})
-	(cd services/reaper && make release version=${version})
-	(cd services/proxy && make release version=${version})
+	(cd services/barn && make release)
+	(cd services/reaper && make release)
+	(cd services/proxy && make release)
 
 #
 # If you are about to go for a coffee run this command, it will force
