@@ -21,9 +21,9 @@
     "build:all": "npm run build && npm run build:locale && npm run build:node",
     "----- // SSR START // -----": "",
     "start:dev": "./node_modules/.bin/nodemon index.dev.js",
-    "start:prod": "npm run clean:all && npm run build:all && npm run start:prod:api",
     "start:dev:api": "./node_modules/.bin/nodemon --watch ssr --watch build -e js index.dev.js",
-    "start:prod:api": "node index",
+    "start:prod": "BABEL_ENV=node npm run clean:all && npm run build:all && npm run start:prod:api",
+    "start:prod:api": "BABEL_ENV=node node index",
     "----- // STYLEGUIDE // -----": "",
     "styleguide": "BABEL_ENV=development ./node_modules/.bin/styleguidist server",
     "styleguide:build": "BABEL_ENV=development./node_modules/.bin/styleguidist build"

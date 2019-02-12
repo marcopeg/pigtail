@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import { Tail } from 'tail'
-import { logError } from 'ssr/services/logger'
+import { logError, logVerbose } from 'ssr/services/logger'
 
 const getLogFilePath = cid => [
     '/var/lib/docker/containers',
@@ -18,6 +18,12 @@ export class LogTail {
         this.tail = null
         this.child = null
 
+        // collects restarts occourrances so to slow down
+        // the restart in case of troubles
+        this.restartsCount = 0
+        this.restartTimer = null
+        this.restartDelay = 250
+
         this.start()
     }
 
@@ -31,7 +37,7 @@ export class LogTail {
         // setup a new tail
         this.tail = new Tail(getLogFilePath(this.cid))
         this.tail.on('error', (err) => {
-             logError('[log tail] tail error', err)
+            logError(`[log tail] tail error - ${this.cid}`, code)
             this.restart()
         })
         this.tail.on('line', line => {
@@ -51,7 +57,7 @@ export class LogTail {
     tailLogs () {
         this.child = spawn('docker', [ 'logs', '--tail=0', '-f', this.cid ]);
         this.child.on('exit', (code) => {
-             logError('[log tail] child process exit', code)
+            logError(`[log tail] child process exit - ${this.cid}`, code)
             this.restart()
         })
         this.child.stdout.on('data', data => this.handler({
@@ -66,11 +72,18 @@ export class LogTail {
             return
         }
 
-        try {
-            this.tailFile()
-        } catch (err) {
-            this.tailLogs()
-        }
+        this.restartsCount += 1
+        const delay = this.restartsCount * this.restartDelay
+
+        logVerbose(`[log-tail] restart in ${delay}`)
+
+        this.restartTimer = setTimeout(() => {
+            try {
+                this.tailFile()
+            } catch (err) {
+                this.tailLogs()
+            }
+        }, delay)
     }
 
     start () {
@@ -80,6 +93,7 @@ export class LogTail {
 
     stop () {
         this.isActive = false
+        clearTimeout(this.restartTimer)
 
         if (this.tail) {
             this.tail.unwatch()

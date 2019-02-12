@@ -1,10 +1,6 @@
 
-# DockerHUB Version Number
-version?=0.0.8
-
 #
 # Releases the production images to DockerHUB
-# It is important to run the proper version number!
 #
 release:
 	(cd services/barn && make release)
@@ -87,6 +83,7 @@ ungrafana:
 
 
 proxy:
+	HUMBLE_ENV=dev humble build barn
 	HUMBLE_ENV=dev humble build proxy
 	HUMBLE_ENV=dev humble up -d proxy
 	HUMBLE_ENV=dev humble logs -f proxy

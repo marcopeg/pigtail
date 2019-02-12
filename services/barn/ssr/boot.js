@@ -63,13 +63,13 @@ registerAction({
 
         settings.express = {
             nodeEnv: config.get('NODE_ENV'),
-            port: config.get('SERVER_PORT'),
+            port: '8080',
             jsonBodyLimit: '1mb',
             graphql: {
                 mountPoint: config.get('GRAPHQL_MOUNT_POINT'),
             },
             locale: {
-                cookieName: `${String(config.get('APP_ID'))}--locale`,
+                cookieName: `pigtail-barn--locale`,
             },
         }
 

@@ -10,9 +10,7 @@ services:
         networks:
             - development
         environment:
-            APP_ID: pigtail-barn
             NODE_ENV: ${NODE_ENV:-development}
-            BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-info}
             PG_HOST: postgres
             PG_PORT: 5432
@@ -21,7 +19,6 @@ services:
             PG_PASSWORD: ${PG_PASSWORD:-postgres}
             PG_MAX_CONN_ATTEMPTS: ${PG_MAX_CONN_ATTEMPTS:-10}
             PG_CONN_ATTEMPTS_DELAY: ${PG_CONN_ATTEMPTS_DELAY:-2500}
-            SERVER_PORT: 8080
             GRAPHQL_MOUNT_POINT: ${GRAPHQL_MOUNT_POINT:-/api}
             REACT_SSR: ${REACT_SSR:-no}
             REACT_SSR_ENABLED: ${REACT_SSR_ENABLED:-no}
@@ -68,7 +65,6 @@ services:
             - development
         environment:
             NODE_ENV: ${NODE_ENV:-development}
-            BABEL_ENV: ${BABEL_ENV:-node}
             LOG_LEVEL: ${LOG_LEVEL:-verbose}
             API_ENDPOINT: ${API_ENDPOINT:-http://barn:8080/api}
             API_TOKEN: ${API_TOKEN:-xxx}
@@ -88,8 +84,6 @@ services:
         image: grafana/grafana:5.4.3
         networks:
             - development
-        ports:
-            - ${GRAFANA_PORT-5051}:3000
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
             - GF_SERVER_ROOT_URL=http://grafana:3000/grafana/
@@ -100,8 +94,6 @@ services:
         image: grafana/grafana:5.4.3
         networks:
             - development
-        ports:
-            - ${BOARDS_PORT-5058}:3000
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
             - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
@@ -142,10 +134,12 @@ services:
             - boards
             - postgres
         ports:
-            - 80:80
+            - ${PROXY_PORT:-80}:80
         environment:
             - BOARDS_ENABLED=${BOARDS_ENABLED:-false}
             - BOARDS_TOKEN=${BOARDS_TOKEN:-}
+        volumes:
+            - ./services/proxy/src:/usr/share/nginx/html:ro
         restart: always
     
 networks:
