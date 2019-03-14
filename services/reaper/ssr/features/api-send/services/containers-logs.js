@@ -9,7 +9,7 @@ const ctx = {
 }
 
 const createLogger = cid => log => {
-    const record = { cid, log, container: getContainerById(cid) }
+    const record = { cid, log, process: getContainerById(cid) }
     pushLog(record)
 }
 
