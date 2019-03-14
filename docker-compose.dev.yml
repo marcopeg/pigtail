@@ -9,6 +9,8 @@ services:
             - postgres
         networks:
             - development
+        ports:
+            - ${BACKEND_PORT:-5051}:8080
         environment:
             NODE_ENV: ${NODE_ENV:-development}
             LOG_LEVEL: ${LOG_LEVEL:-info}
@@ -84,6 +86,8 @@ services:
         image: grafana/grafana:5.4.3
         networks:
             - development
+        ports:
+            - ${GRAFANA_PORT-5053}:3000
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
             - GF_SERVER_ROOT_URL=http://grafana:3000/grafana/
@@ -94,6 +98,8 @@ services:
         image: grafana/grafana:5.4.3
         networks:
             - development
+        ports:
+            - ${GRAFANA_BOARDS_PORT-5054}:3000
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-grafana}
             - GF_SERVER_ROOT_URL=http://grafana:3000/boards/
@@ -107,7 +113,7 @@ services:
         networks:
             - development
         ports:
-            - ${PG_PORT-5053}:5432
+            - ${PG_PORT-5055}:5432
         environment:
             POSTGRES_USER: ${PG_USERNAME:-postgres}
             POSTGRES_PASSWORD: ${PG_PASSWORD:-postgres}
@@ -134,7 +140,7 @@ services:
             - boards
             - postgres
         ports:
-            - ${PROXY_PORT:-80}:80
+            - ${PROXY_PORT:-5050}:80
         environment:
             - BOARDS_ENABLED=${BOARDS_ENABLED:-false}
             - BOARDS_TOKEN=${BOARDS_TOKEN:-}
