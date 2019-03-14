@@ -59,6 +59,7 @@ registerAction({
             maxAttempts: Number(config.get('PG_MAX_CONN_ATTEMPTS')),
             attemptDelay: Number(config.get('PG_CONN_ATTEMPTS_DELAY')),
             models: [],
+            schemas: ['pigtail'],
         }]
 
         settings.express = {

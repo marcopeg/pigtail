@@ -11,27 +11,24 @@ import GraphQLJSON from 'graphql-type-json'
 import { createHook } from '@marcopeg/hooks'
 
 import { getModel } from 'ssr/services/postgres'
-import { name as Metric } from './models/metric.model'
-import { TRACK_METRICS_RECORDS, TRACK_METRICS_AFTER_CREATE } from './hooks'
+import { name as Event } from './models/event.model'
+import { TRACK_EVENTS_RECORDS, TRACK_EVENTS_AFTER_CREATE } from './hooks'
 
-export const trackMetrics = () => ({
-    description: 'TrackMetricsMutation',
+export const trackEvents = () => ({
+    description: 'TrackEventsMutation',
     args: {
         data: {
             type: new GraphQLNonNull(new GraphQLList(new GraphQLInputObjectType({
-                name: 'MetricRecord',
+                name: 'EventRecord',
                 fields: {
                     host: {
                         type: new GraphQLNonNull(GraphQLString),
                     },
-                    metric: {
+                    event: {
                         type: new GraphQLNonNull(GraphQLString),
                     },
-                    value: {
+                    payload: {
                         type: new GraphQLNonNull(GraphQLJSON),
-                    },
-                    meta: {
-                        type: GraphQLJSON,
                     },
                     ctime: {
                         type: GraphQLDateTime,
@@ -42,17 +39,16 @@ export const trackMetrics = () => ({
     },
     type: GraphQLBoolean,
     resolve: async (params, args) => {
-        const records = args.data.map(record => ({
+        const events = args.data.map(record => ({
             ...record,
             ctime: record.ctime || new Date(),
-            meta: record.meta || {},
         }))
 
-        createHook(TRACK_METRICS_RECORDS, { args: { records } })
+        createHook(TRACK_EVENTS_RECORDS, { args: { events } })
 
-        await getModel(Metric).bulkCreate(records)
+        await getModel(Event).bulkCreate(events)
 
-        createHook(TRACK_METRICS_AFTER_CREATE, { args: { records } })
+        createHook(TRACK_EVENTS_AFTER_CREATE, { args: { events } })
         return true
     },
 })

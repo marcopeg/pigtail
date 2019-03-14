@@ -65,6 +65,11 @@ export class LogTail {
             stream: 'docker',
             time: (new Date()).toISOString()
         }))
+        this.child.stderr.on('data', data => this.handler({
+            log: data.toString(),
+            stream: 'docker',
+            time: (new Date()).toISOString()
+        }))
     }
 
     restart () {

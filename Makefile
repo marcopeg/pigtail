@@ -111,7 +111,6 @@ dev: db
 undev:
 	HUMBLE_ENV=dev humble down
 
-
 #
 # Production Commands
 #
@@ -127,3 +126,8 @@ prod:
 unprod:
 	HUMBLE_ENV=prod humble down
 
+log-dev:
+	HUMBLE_ENV=dev humble logs -f
+
+log-prod:
+	HUMBLE_ENV=prod humble logs -f

@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize'
 
-export const name = 'Log'
+export const name = 'Event'
 
 const fields = {
     ctime: {
@@ -9,28 +9,26 @@ const fields = {
     host: {
         type: Sequelize.STRING,
     },
-    container: {
+    event: {
         type: Sequelize.STRING,
     },
-    message: {
-        type: Sequelize.TEXT,
-    },
-    meta: {
+    payload: {
         type: Sequelize.JSONB,
         allowNull: false,
     },
 }
 
 const options = {
-    tableName: 'logs',
+    schema: 'pigtail',
+    tableName: 'events',
     freezeTableName: true,
     underscored: true,
     createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    updatedAt: false,
     hooks: {
         afterSync: ({ sequelize }) =>
             sequelize
-                .query(`SELECT create_hypertable('logs', 'ctime')`)
+                .query(`SELECT create_hypertable('events', 'ctime')`)
                 .catch(() => {})
         ,
     },

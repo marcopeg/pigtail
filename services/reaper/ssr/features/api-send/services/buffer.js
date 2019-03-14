@@ -28,7 +28,7 @@ export const flushMetrics = (limit = null) => {
 export const pushLog = record =>
     ctx.logs.push({
         host: ctx.hostName,
-        container: record.container.name,
+        process: record.process.name,
         message: record.log.log,
         meta: {
             stream: record.log.stream,

@@ -14,6 +14,10 @@ export const register = ({ registerAction, createHook }) => {
         name: '→ postgres',
         trace: __filename,
         handler: async ({ postgres }) => {
+            if (!postgres) {
+                throw new Error(`[postgres] missing boot configuration`)
+            }
+
             for (const options of postgres) {
                 const name = `${POSTGRES_BEFORE_INIT}/${options.connectionName || 'default'}`
                 createHook(name, { args: { options } })

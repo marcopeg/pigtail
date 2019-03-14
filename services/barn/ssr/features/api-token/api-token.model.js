@@ -15,6 +15,7 @@ const fields = {
 }
 
 const options = {
+    schema: 'pigtail',
     tableName: 'api_tokens',
     freezeTableName: true,
     underscored: true,
@@ -25,7 +26,7 @@ const options = {
             if (settings.defaultToken === 'no') return
 
             const query = [
-                `INSERT INTO api_tokens`,
+                `INSERT INTO pigtail.api_tokens`,
                 `(token, created_at)`,
                 `VALUES ( :token, now() )`,
                 `ON CONFLICT DO NOTHING`,

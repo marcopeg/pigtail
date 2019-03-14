@@ -22,6 +22,7 @@ const fields = {
 }
 
 const options = {
+    schema: 'pigtail',
     tableName: 'containers',
     freezeTableName: true,
     underscored: true,
@@ -32,7 +33,7 @@ const options = {
 const bulkUpsert = (conn, Model) => records =>
     Promise.all(records.map(async record => {
         const query = [
-            `INSERT INTO containers`,
+            `INSERT INTO pigtail.containers`,
             `( host, cid, name, meta, created_at, updated_at ) VALUES`,
             `( :host, :cid, :name, :meta, NOW(), NOW() )`,
             `ON CONFLICT (host, cid) DO UPDATE SET`,
