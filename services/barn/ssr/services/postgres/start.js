@@ -58,7 +58,7 @@ const startModels = async (conn, models) => {
     return Promise.all(promises)
 }
 
-export default async ({ models, maxAttempts, attemptDelay, ...config }) => {
+export default async ({ schemas, models, maxAttempts, attemptDelay, ...config }) => {
     logInfo('[postgres] start')
     const name = config.connectionName || 'default'
     const conn = getHandler(name)
@@ -75,6 +75,12 @@ export default async ({ models, maxAttempts, attemptDelay, ...config }) => {
         }
     } catch (err) {
         throw new Error(`[postgres] onConnection hook failed for "${name}" - ${err.message}`)
+    }
+
+    // Create custom schemas
+    if (schemas) {
+        const schemasP = schemas.map(schema => conn.handler.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`))
+        await Promise.all(schemasP)
     }
 
     try {

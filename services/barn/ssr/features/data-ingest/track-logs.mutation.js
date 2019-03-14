@@ -10,9 +10,11 @@ import {
 
 import { GraphQLDateTime } from 'graphql-iso-date'
 import GraphQLJSON from 'graphql-type-json'
+import { createHook } from '@marcopeg/hooks'
 
 import { getModel } from 'ssr/services/postgres'
-import { name as Log } from './log.model'
+import { name as Log } from './models/log.model'
+import { TRACK_LOGS_RECORDS, TRACK_LOGS_AFTER_CREATE } from './hooks'
 
 export const trackLogs = () => ({
     description: 'TrackLogsMutation',
@@ -24,7 +26,7 @@ export const trackLogs = () => ({
                     host: {
                         type: new GraphQLNonNull(GraphQLString),
                     },
-                    container: {
+                    process: {
                         type: new GraphQLNonNull(GraphQLString),
                     },
                     message: {
@@ -43,11 +45,17 @@ export const trackLogs = () => ({
     type: GraphQLBoolean,
     resolve: async (params, args) => {
         try {
-            await getModel(Log).bulkCreate(args.data.map(record => ({
+            const logs = args.data.map(record => ({
                 ...record,
                 ctime: record.ctime || new Date(),
                 meta: record.meta || {},
-            })))
+            }))
+
+            createHook(TRACK_LOGS_RECORDS, { args: { logs } })
+
+            await getModel(Log).bulkCreate(logs)
+
+            createHook(TRACK_LOGS_AFTER_CREATE, { args: { logs } })
             return true
         } catch (err) {
             logError(err)

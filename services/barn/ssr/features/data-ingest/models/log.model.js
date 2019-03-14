@@ -1,23 +1,19 @@
 import Sequelize from 'sequelize'
 
-export const name = 'Metric'
+export const name = 'Log'
 
 const fields = {
     ctime: {
         type: Sequelize.DATE,
-        primaryKey: true,
     },
     host: {
         type: Sequelize.STRING,
-        primaryKey: true,
     },
-    metric: {
+    process: {
         type: Sequelize.STRING,
-        primaryKey: true,
     },
-    value: {
-        type: Sequelize.JSONB,
-        allowNull: false,
+    message: {
+        type: Sequelize.TEXT,
     },
     meta: {
         type: Sequelize.JSONB,
@@ -26,17 +22,17 @@ const fields = {
 }
 
 const options = {
-    tableName: 'metrics',
+    schema: 'pigtail',
+    tableName: 'logs',
     freezeTableName: true,
     underscored: true,
     createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    updatedAt: false,
     hooks: {
         afterSync: ({ sequelize }) =>
             sequelize
-                .query(`SELECT create_hypertable('metrics', 'ctime')`)
-                .catch(() => {})
-        ,
+                .query(`SELECT create_hypertable('logs', 'ctime')`)
+                .catch(() => {}),
     },
 }
 
