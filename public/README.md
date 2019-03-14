@@ -33,4 +33,17 @@ tool and you can find some example dashboards in this folder.
 
 [Open grafana](http://localhost:5050/grafana/login)
 
+The first step is to **add the Postgres datasource**:
+
+    host:      postgres:5432
+    database:  postgres
+    user:      postgres
+    password:  postgres
+    ssl-mode:  disable
+
+Once you have a running connection you can then import one of the example boards.
+
+1. From the left icon menu choose `Dashboards -> manage`
+2. Click on the `import` button on the top right area
+3. 
 
