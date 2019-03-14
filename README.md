@@ -120,10 +120,47 @@ If you are working on the *barn ui* you need to `make barn` so to run the backen
 
 Working on the Reaper
 ---------------------
-     
-[[ to be continued... ]]    
+
+When you work on the *reaper* you probably want to have a *barn* running, so that the *reaper* can send the data to it. (just run `make barn`).
+
+###### Run the frontend via Docker
+
+    make reaper
+    make unreaper
+    
+###### Run the frontend via NodeJS
+
+    cd services/reaper
+    yarn install
+    yarn start:dev
+
+An important step is to setup you environment correctly. In `services/reaper/.env` you find a list of **commented environment variables** that the app needs in order to boot. The `.env` file is meant as a live documentation of the necessary variables, the app just won't boot without them.
+
+Create a `.env.local` file and write there your custom values for development.
 
 
-## Production run
 
-[[ to be continued... ]]
+
+Local Production run with docker-compose
+----------------------------------------
+
+From the root of the project run:
+
+    make prod
+    make unprod
+    
+This will start all the services behind an *NGiNX* proxy.
+
+An important step is to setup you environment correctly. In `.env` you find a list of commented environment variables that the app needs in order to boot. The .env file is meant as a live documentation of the necessary variables, the app just won’t boot without them.
+
+Create a `.env.local` file and write there your custom values for production.
+
+
+
+
+
+Production Run from DockerHub
+-----------------------------
+
+[Follow the white rabbit...](./public/README.md)
+
