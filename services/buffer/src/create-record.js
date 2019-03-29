@@ -6,10 +6,6 @@ import { PigtailError } from './pigtail-error.class'
  */
 
 const createLog_ = (data, settings) => {
-    if (!data.message) {
-        throw new PigtailError('missing "message" property for the log')
-    }
-
     const {
         message,
         host,
@@ -17,6 +13,10 @@ const createLog_ = (data, settings) => {
         ctime,
         ...meta
     } = data
+
+    if (!message) {
+        throw new PigtailError('missing log "message"')
+    }
 
     if (ctime && !(ctime instanceof Date)) {
         throw new PigtailError('ctime is not a valid date')
@@ -48,7 +48,45 @@ const createLog = (data, settings) => {
  * EVENT
  */
 
-const createEvent = (data) => {}
+const createEvent_ = (event, settings) => {
+    const {
+        name,
+        ctime,
+        host,
+        process,
+        identity,
+        ...payload
+    } = event
+
+    if (!name) {
+        throw new PigtailError('missing event "name"')
+    }
+
+    if (ctime && !(ctime instanceof Date)) {
+        throw new PigtailError('ctime is not a valid date')
+    }
+
+    return {
+        name,
+        payload,
+        identity: identity || null,
+        host: host || settings.hostName,
+        process: process || settings.processName,
+        ctime: ctime || null,
+    }
+}
+
+const createEvent = (name, payload, settings) => {
+    if (typeof name === 'object') {
+        return createEvent_(name, payload)
+    }
+    
+    if (typeof name === 'string' && typeof payload === 'object') {
+        return createEvent_({ ...payload, name }, settings)
+    }
+
+    throw new PigtailError('unexpected event format')
+}
 
 
 /**
@@ -63,13 +101,13 @@ export const recordType = {
     METRIC: 'm',
 }
 
-export const createRecord = (type, data, settings) => {
+export const createRecord = (type, ...args) => {
     switch (type) {
         case recordType.LOG:
-            return createLog(data, settings)
+            return createLog(...args)
         case recordType.EVENT:
-            return createEvent(data, settings)
+            return createEvent(...args)
         case recordType.METRIC:
-            return createMetric(data, settings)
+            return createMetric(...args)
     }
 }
