@@ -1,0 +1,30 @@
+{
+  "name": "@pigtail/buffer",
+  "version": "0.0.0",
+  "description": "It helps sending data to @Pigtail",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "start": "./node_modules/.bin/babel --watch src --out-dir lib",
+    "test": "./node_modules/.bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcopeg/pigtail.git"
+  },
+  "keywords": [
+    "pigtail"
+  ],
+  "author": "Marco Pegoraro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcopeg/pigtail/issues"
+  },
+  "homepage": "https://github.com/marcopeg/pigtail#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "jest": "^24.5.0"
+  }
+}
