@@ -33,7 +33,7 @@ const createLog_ = (data, settings) => {
 
 const createLog = (data, settings) => {
     if (typeof data === 'string') {
-        return createLog_({ message: data }, settings)
+        return createLog_({ message: data, ctime: new Date() }, settings)
     }
 
     if (typeof data !== 'object') {
@@ -82,7 +82,7 @@ const createEvent = (name, payload, settings) => {
     }
     
     if (typeof name === 'string' && typeof payload === 'object') {
-        return createEvent_({ ...payload, name }, settings)
+        return createEvent_({ ...payload, name, ctime: new Date() }, settings)
     }
 
     throw new PigtailError('unexpected event format')
@@ -93,7 +93,49 @@ const createEvent = (name, payload, settings) => {
  * METRIC
  */
 
-const createMetric = (data) => {}
+const createMetric_ = (metric, settings) => {
+    const {
+        name,
+        value,
+        ctime,
+        host,
+        process,
+        ...meta
+    } = metric
+
+    if (!name) {
+        throw new PigtailError('missing metric "name"')
+    }
+
+    if (value === undefined) {
+        throw new PigtailError('missing metric "value"')
+    }
+
+    if (ctime && !(ctime instanceof Date)) {
+        throw new PigtailError('ctime is not a valid date')
+    }
+
+    return {
+        name,
+        value,
+        host: host || settings.hostName,
+        process: process || settings.processName,
+        ctime: ctime || null,
+        meta,
+    }
+}
+
+const createMetric = (name, value, settings) => {
+    if (typeof name === 'object') {
+        return createMetric_(name, value)
+    }
+    
+    if (typeof name === 'string') {
+        return createMetric_({ name, value, ctime: new Date() }, settings)
+    }
+
+    throw new PigtailError('unexpected metric format')
+}
 
 export const recordType = {
     LOG: 'l',
