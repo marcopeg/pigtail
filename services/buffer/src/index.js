@@ -1,5 +1,6 @@
 import { validateSettings } from './validate-settings'
 import { createRecord, recordType } from './create-record'
+import { flush } from './flush'
 
 export const createPigtailClient = (receivedSettings) => {
     const settings = validateSettings(receivedSettings)
@@ -18,34 +19,6 @@ export const createPigtailClient = (receivedSettings) => {
         chunks: [],
     }
 
-    // empty the live data collection structure and queue a new
-    // chunk that needs to be flushed out to the server
-    const createChunk = () => {
-        const chunk = {
-            size: data.currentSize,
-            ctime: new Date(),
-            logs: data.logs,
-            metrics: data.metrics,
-            events: data.events,
-        }
-
-        data.logs = []
-        data.metrics = []
-        data.events = []
-
-        data.chunks.push(chunk)
-        data.chunksSize += chunk.size
-        data.currentSize = 0
-    }
-
-    // generate new chunks based on time intervals
-    const loop = () => {
-        (data.currentSize > 0) && createChunk()
-        loop.timer = setTimeout(loop, settings.maxInterval)
-    }
-
-    loop.timer = setTimeout(loop, settings.maxInterval)
-
     const pushRecord = (record, target) => {
         const recordSize = Buffer.byteLength(JSON.stringify(record), 'utf8')
 
@@ -60,11 +33,69 @@ export const createPigtailClient = (receivedSettings) => {
         data.totalSize += recordSize
     }
 
+    // empty the live data collection structure and queue a new
+    // chunk that needs to be flushed out to the server
+    const createChunk = () => {
+        if (data.currentSize  === 0) {
+            return
+        }
+
+        const chunk = {
+            size: data.currentSize,
+            ctime: new Date(),
+            attempts: 0,
+            logs: data.logs,
+            metrics: data.metrics,
+            events: data.events,
+        }
+
+        data.logs = []
+        data.metrics = []
+        data.events = []
+
+        data.chunks.push(chunk)
+        data.chunksSize += chunk.size
+        data.currentSize = 0
+    }
+
+    const flushChunk = async () => {
+        if (data.chunks.length === 0) {
+            return 100
+        }
+
+        const chunk = data.chunks.shift()
+        try {
+            await flush(chunk, settings.target)
+            data.totalSize -= chunk.size
+            data.chunksSize -= chunk.size
+        } catch (err) {
+            if (chunk.attempts < 5) {
+                chunk.attempts += 1
+                data.chunks.unshift(chunk)
+            }
+        }
+
+        return 0
+    }
+
+    // generate new chunks based on time intervals
+    const chunksLoop = () => {
+        createChunk()
+        chunksLoop.timer = setTimeout(chunksLoop, settings.maxInterval)
+    }
+
+    // stream data to the server on regular intervals
+    const flushLoop = async () => {
+        const interval = await flushChunk()
+        flushLoop.timer = setTimeout(flushLoop, interval)
+    }
+
+
     /**
      * Public API
      */
 
-    const ctx = {
+    const publicApi = {
         log: (...args) => {
             const record = createRecord(recordType.LOG, ...args, settings)
             pushRecord(record, 'logs')
@@ -77,16 +108,28 @@ export const createPigtailClient = (receivedSettings) => {
             const record = createRecord(recordType.EVENT, ...args, settings)
             pushRecord(record, 'events')
         },
-
+        flush: () => {
+            createChunk()
+            clearTimeout(flushLoop.timer)
+            return flushLoop()
+        },
     }
 
-    // Expise the internal state for testing purposes.
+    // Expose the internal stuff for testing purposes.
     if (process.env.NODE_ENV === 'test') {
-        ctx.getState = () => ({
+        publicApi.getState = () => ({
             settings,
             data,
         })
+
+        publicApi.createChunk = createChunk
+        publicApi.flushChunk = flushChunk
+
+    // Start the daemons right away in production
+    } else {
+        chunksLoop.timer = setTimeout(chunksLoop, settings.maxInterval)
+        flushLoop.timer = setTimeout(flushLoop, 0)
     }
 
-    return ctx
+    return publicApi
 }
