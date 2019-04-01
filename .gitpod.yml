@@ -1,8 +1,6 @@
 
 tasks:
-  - command: cd services/barn && yarn install
+  - command: cd services/barn && yarn
     openIn: bottom
-    openMode: split-left
-  - command: cd services/reaper && yarn install
+  - command: cd services/reaper && yarn
     openIn: bottom
-    openMode: split-right
