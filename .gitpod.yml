@@ -1,0 +1,4 @@
+
+tasks:
+  - command: echo Terminal1
+  - command: echo Terminal2
