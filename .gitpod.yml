@@ -1,6 +1,6 @@
 
 tasks:
-  - command: cd services/barn && yarn
+  - command: (cd services/barn && yarn)
     openIn: bottom
-  - command: cd services/reaper && yarn
+  - command: (cd services/reaper && yarn)
     openIn: bottom
