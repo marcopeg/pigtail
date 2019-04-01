@@ -1,10 +1,8 @@
 
 tasks:
-  - command: >
-        cd ./services/barn &&
-        yarn install
+  - before: cd ./services/barn
+    init: yarn install
     openIn: bottom
-  - command: >
-        cd ./services/reaper &&
-        yarn install
+  - before: cd ./services/reaper
+    init: yarn install
     openIn: bottom
