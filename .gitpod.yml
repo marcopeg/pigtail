@@ -1,8 +1,8 @@
 
 tasks:
   - before: cd ./services/barn
-    init: yarn install
+    init: yarn cache clean && yarn install --network-concurrency 1
     openIn: bottom
   - before: cd ./services/reaper
-    init: yarn install
+    init: yarn cache clean && yarn install --network-concurrency 1
     openIn: bottom
